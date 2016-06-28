@@ -8,9 +8,9 @@
   different prototypes of web-based implementations for transportation networks
   used as scenery for an interactive accessibility-map visualization technique.
   Subsequently, the performance of the following approaches for Leaflet-JS plug-ins
-  are evaluated~(Sec.~\ref{WD:SubSec:PerformanceEvaluation}).\par
+  are evaluated~(Sec.~{WD:SubSec:PerformanceEvaluation}).\par
   \section{Architecture overview}
-    The current implementation requires a client/server architecture which offers both, a tiling service supplying the precalculated geometry tiles and a routing service supplying travel times on-request at runtime (figure \ref{fig:arch}).
+    The current implementation requires a client/server architecture which offers both, a tiling service supplying the precalculated geometry tiles and a routing service supplying travel times on-request at runtime (figure {fig:arch}).
 
 %    \begin{figure}[h]
 %      \centering
@@ -19,10 +19,10 @@
 %      \label{fig:arch}
 %    \end{figure}
 
-    The tiling server regulary fetches OpenStreetMap snapshots and loads them into a PostGIS database. A tiling algorithm developed by Silbersiepe (2015) filters the geodata based on attributes and zoom level and pregenerates tiles for at least 20 zoom levels [27].\par
+    The tiling server regulary fetches OpenStreetMap snapshots and loads them into a PostGIS database. A tiling algorithm developed by Silbersiepe (2015) filters the geodata based on attributes and zoom level and pregenerates tiles for at least 20 zoom levels [??].\par
     A routing server operated by Motion Intelligence GmbH provides travel times based on the selected transportation type (e.g. car, bike, public transport) and a starting location. This data can be requested multiple times without the need to update the underlying geometry tiles again.\par
 
-    The approach follows a server-client architecture which is common for most web applications [?]. Figure \ref{fig:poc:arch} gives a first overview.\par
+    The approach follows a server-client architecture which is common for most web applications [?]. Figure {fig:poc:arch} gives a first overview.\par
     \begin{figure}[h]
       \centering
       \includegraphics[width=\linewidth]{./img/conceptual-overview-bw.pdf}
@@ -36,10 +36,10 @@
       \item[Routing-Server] A routing server handles dynamic requests based on the user's selected starting location, transportation type and maximum travel time. It responds with customized routing information for the underlying transportation network.
     \end{description}
     The front-end contains the mapping and rendering stages. A glTF reader will request and load the network geometries. Based on the user inputs, routing data will be queried. All responses are mapped, cached and rendered in the client.\par
-    As described in section \ref{sec:conc:back}, the back-end is not subject to further technical specification in this document. Therefore, the following applications strongly focus on the front-end implementation and visualization.\par
+    As described in section {sec:conc:back}, the back-end is not subject to further technical specification in this document. Therefore, the following applications strongly focus on the front-end implementation and visualization.\par
   \section{Iterative development process}
     To allow fast evaluation of the results gained during the development phases, an evolutionary development process is applied to reach different proof-of-concept stages. The iterative process allows go through development, testing and evaluation phases quickly [?] and move ...\par
-    The back-end specified in section \ref{sec:conc:back} is provided and maintained by Motion Intelligence GmbH. ...\par
+    The back-end specified in section {sec:conc:back} is provided and maintained by Motion Intelligence GmbH. ...\par
     % api communication with motion intelligence gmbh
     The implementation is solved by an evolutionary prototyping process. The presented prototypes are therefore not comparable but rather help to outline issues with existing solutions and pave the way to the -- for this paper -- final solution utilizing glTF geometry tiles. Four prototypes are implemented:
     \begin{description}
@@ -55,17 +55,17 @@
   \section{Proof-of-concept applications}
     In the following subsections five proof-of-concept applications will be presented.\par
     \subsection{Leaflet native network rendering}
-      A reference implementation in Leaflet is provided (figure \ref{fig:poc:one}). It does not utilize hardware acceleration or WebGL rendering. It processes the vector data in GeoJSON format using the native Leaflet JavaScript class \texttt{L.GeoJson}. Therefore, both the mapping and rendering will be performed on CPU.\par
+      A reference implementation in Leaflet is provided (figure {fig:poc:one}). It does not utilize hardware acceleration or WebGL rendering. It processes the vector data in GeoJSON format using the native Leaflet JavaScript class \texttt{L.GeoJson}. Therefore, both the mapping and rendering will be performed on CPU.\par
       \begin{figure}[h]
         \centering
         \includegraphics[width=0.7\linewidth]{./img/screenshot-poc1-600s-native.png}
         \caption{An accessibility map rendered native with Leaflet vector tiles in GeoJSON format. The selected transportation mode is walking and the displayed travel time is 10 minutes.}
         \label{fig:poc:one}
       \end{figure}
-      The rendered street network for 600 seconds travel time in walking mode contains 13,829 features (25,821 vertices). It shows a major performance bottleneck for both the mapping and the rendering stage. It wont be evaluated any further and is only used for the performance comparison in section \ref{sec:comp} as native Leaflet reference without WebGL hardware acceleration.
+      The rendered street network for 600 seconds travel time in walking mode contains 13,829 features (25,821 vertices). It shows a major performance bottleneck for both the mapping and the rendering stage. It wont be evaluated any further and is only used for the performance comparison in section {sec:comp} as native Leaflet reference without WebGL hardware acceleration.
 
     \subsection{Leaflet WebGL canvas overlay}
-      Leaflet provides a 2D \texttt{L.map()} canvas on a \texttt{<div id="map" />} HTML DOM element. This can be used for basic web mapping tools like raster base tiles or simple vector items. The extended class \texttt{L.canvasOverlay()} provides Leaflet with a 3D overlay which handles redrawing of the canvas and therefore allows basic WebGL context integration (figure \ref{fig:overlay}).
+      Leaflet provides a 2D \texttt{L.map()} canvas on a \texttt{<div id="map" />} HTML DOM element. This can be used for basic web mapping tools like raster base tiles or simple vector items. The extended class \texttt{L.canvasOverlay()} provides Leaflet with a 3D overlay which handles redrawing of the canvas and therefore allows basic WebGL context integration (figure {fig:overlay}).
 
 %%%      \begin{figure}[h]
 %%%        \centering
@@ -76,7 +76,7 @@
 %%%      \end{figure}
 
       On each map interaction, a \texttt{drawGL()} call will be triggered by the overlay. This function reads the underlying GeoJSON and extracts all geographic features. For each feature in the featureset, the algorithm checks the travel time properties and decides whether the feature is visible (below selected threshold) or not.\par
-      Each visible feature will be converted to typed array buffers for vertices and colours. Each coordinate of the geometry has to be mapped to pixel coordinates (section \ref{sec:pix}).\par
+      Each visible feature will be converted to typed array buffers for vertices and colours. Each coordinate of the geometry has to be mapped to pixel coordinates (section {sec:pix}).\par
       The Leaflet web-mapping framework does not offer any WebGL support, yet. Sumbrera [?] published a Leaflet canvas overlay class which provides a generic overlay over the map canvas and handles view-port coordinates and drawing events.\par
       % https://blog.sumbera.com/2014/04/20/leaflet-canvas/
       \begin{figure}[h]
@@ -86,7 +86,7 @@
         \label{fig:poc:overlay}
       \end{figure}
       \lstinputlisting[float,caption={Leaflet canvas overlay},label={lst:poc:overlay}]{./lst/leaflet-canvas-overlay.js}
-      While Leaflet provides a map canvas on a HTML DOM element (e.g., \texttt{<div id='map'>}) for two dimensional vector and raster contexts, Figure \ref{fig:poc:overlay} shows how the \texttt{L.CanvasOverlay} class provides an additional context. The overlay can be used for custom HTML5 elements and handles view port coordinate alignment along with the underlying map. Furthermore, it can be utilized to bind a three dimensional context like WebGL and to handle the redrawing of the scene each time the map view changes (Listing \ref{lst:poc:overlay}).\par
+      While Leaflet provides a map canvas on a HTML DOM element (e.g., \texttt{<div id='map'>}) for two dimensional vector and raster contexts, Figure {fig:poc:overlay} shows how the \texttt{L.CanvasOverlay} class provides an additional context. The overlay can be used for custom HTML5 elements and handles view port coordinate alignment along with the underlying map. Furthermore, it can be utilized to bind a three dimensional context like WebGL and to handle the redrawing of the scene each time the map view changes (Listing {lst:poc:overlay}).\par
     \subsection{WebGL with tiled vector data}
       Two.
       \begin{figure}[h]
@@ -97,7 +97,7 @@
       \end{figure}
       This implementation shows two issues.\par
       A blocking performance issue is the conversion from geodata to array buffers. For the mentioned dataset of only 15 minutes travel time this results in an iteration over 29.864 geographic features. In addition, the coordinates have to be iterated as well, leaving this example with 129.034 spheric conversions for 64.517 coordinates.\par
-      Another problem is the unability to access the internal \texttt{EPSG :3857} metric coordinates from Leaflet. All positions have to be transformed using compute-intense spherical (degree) rather than optimized metric conversions [23].\par
+      Another problem is the unability to access the internal \texttt{EPSG :3857} metric coordinates from Leaflet. All positions have to be transformed using compute-intense spherical (degree) rather than optimized metric conversions [??].\par
       Leaflet-JS provides a 2D canvas on a HTML DOM element that is used for basic
       web-mapping tools such as raster-based tiles or simple vector items. An extended
       \textsl{canvas overlay} class provides Leaflet-JS with a 3D overlay that handles
@@ -108,9 +108,9 @@
       each visible feature to typed array buffers (vertices and colors), including coordinate mapping.\par
       This implementation approach shows two performance bottlenecks: (1) the conversion
       from geodata representation to GPU array-buffers and (2) coordinate transformations
-      for rendering~(cf.~Sec.~\ref{WD:SubSec:PerformanceEvaluation}). \par
+      for rendering~(cf.~Sec.~{WD:SubSec:PerformanceEvaluation}). \par
     \subsection{WebGL with tiled buffer data}
-      Table \ref{tab:tilopts} highlights the advantages of geometry tiling. The layout stays dynamic and can be adjusted at runtime by custom user inputs similar to vector tiling approaches.\par
+      Table {tab:tilopts} highlights the advantages of geometry tiling. The layout stays dynamic and can be adjusted at runtime by custom user inputs similar to vector tiling approaches.\par
       The data processing is moved from client-side to server-side similar to raster tiling approaches. The result is high runtime preformance with low latencies and the resulting geometries can be cached client-side.\par
       The rendering happens on dedicated graphic devices and ensures outstanding performance even for complex geodata sets.
 
@@ -125,7 +125,7 @@
 %%%        \caption{Tiling options}
 %%%        \label{tab:tilopts}
 %%%      \end{table}
-      Figure \ref{fig:geotile} shows a screenshot of a modified version of the 4th prototype. It displays the geometry tile \texttt{[2200,1343]} at zoom level 12 rendered with WebGL using random colours.
+      Figure {fig:geotile} shows a screenshot of a modified version of the 4th prototype. It displays the geometry tile \texttt{[2200,1343]} at zoom level 12 rendered with WebGL using random colours.
 
 %%%      \begin{figure}[h]
 %%%        \centering
@@ -133,12 +133,12 @@
 %%%        \caption{Geometry tile rendered with WebGL.}
 %%%        \label{fig:geotile}
 %%%      \end{figure}
-      Two Leaflet plugins are being developed to manage the tiling data logic [18].\par
+      Two Leaflet plugins are being developed to manage the tiling data logic [??].\par
       \begin{itemize}
         \item \texttt{L.TileBuffer} is the actual class for all geometry tiles. Each instance has the properties of \texttt{x}, \texttt{y} and \texttt{zoom}. In addition it stores the three required typed array buffers to render the tile with WebGL: a \texttt{Float32Array} for vertices, a \texttt{Uint16Array} for indices and a \texttt{Float32Array} for colours. This information is enough to render the complete tile in a single draw call.
         \item \texttt{L.TileBufferCollection} is a class which implements the basic tile caching logic. It has a \texttt{zoom} and a \texttt{size} property. In addition, it holds a collection of \texttt{L.Tile\-Buffer} objects for the current zoom level. As soon as the client requests a redraw of the scene, the collection can be rendered based on zoom and position of the visible tiles.
       \end{itemize}
-      On each load event of a tile, Leaflet will request the geometry (vertices and indices) from the tiling server and the travel times (colours) from the routing server. These three arrays are recieved in glTF format. They are used to create \texttt{L.TileBuffer} objects (figure \ref{fig:tbuff}).\par
+      On each load event of a tile, Leaflet will request the geometry (vertices and indices) from the tiling server and the travel times (colours) from the routing server. These three arrays are recieved in glTF format. They are used to create \texttt{L.TileBuffer} objects (figure {fig:tbuff}).\par
 
 %%      \begin{figure}[h]
 %%        \centering
@@ -149,7 +149,7 @@
 
       This approach eliminates client-side data processing and represents a new geometry-tiling
       approach based on glTF and following the common approach to partition map data
-      into portions of similar size. Figure~\ref{WD:Fig:ConceptualOverview} shows an conceptual
+      into portions of similar size. Figure~{WD:Fig:ConceptualOverview} shows an conceptual
       overview of our approach: (1) the input transportation network will be pre-processed
       to glTF-tiles that are stored on a dedicated tiling server. In this step all
       coordinate transformations required for rendering are performed and a correspondence
@@ -157,7 +157,7 @@
       geometry of the tiles according to the current viewport and request travel times
       respectively by using the graph correspondence; (3) for visualization, the network
       tiles are cached and directly used for mapping and rendering.\par
-      Table~\ref{WD:Tab:TilingOptions} highlights the advantages of glTF-tiling. It
+      Table~{WD:Tab:TilingOptions} highlights the advantages of glTF-tiling. It
       supports client-side mapping (e.g., color mapping and lines styles) at runtime
       on according to user inputs without retransmission of data, similar to vector
       tiles. The data processing is transferred from client to server-side, similar
