@@ -2,8 +2,15 @@
 \documentclass[english]{cgsthesis}
 \usepackage[utf8]{inputenc}
 
+
 % Bibtex %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\usepackage[defernumbers=true,natbib=true,bibencoding=ascii,backend=bibtex,style=numeric]{biblatex}
+\usepackage[
+    defernumbers=true,
+    natbib=true,
+    bibencoding=ascii,
+    backend=bibtex,
+    style=numeric
+  ]{biblatex}
 \DeclareBibliographyCategory{cited}
 \DeclareBibliographyCategory{supplementary}
 \AtEveryCitekey{\addtocategory{cited}{\thefield{entrykey}}}
@@ -12,13 +19,15 @@
   andothers = {\emph{et~al.}}
 }
 \addbibresource{schoedon.bib}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
 
 % Code listings %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \usepackage{listings}
 \lstloadlanguages{C++, HTML, sh}
 \lstdefinelanguage{JavaScript}{
-  keywords={typeof, new, true, false, catch,%
-    function, return, null, catch, switch, var,%
+  keywords={typeof, new, true, false, catch,
+    function, return, null, catch, switch, var,
     if, in, while, do, else, case, break},
   ndkeywords={class, export, boolean, throw, implements, import, this},
   sensitive=false,
@@ -29,169 +38,106 @@
 }
 \newcommand{\lstsetjavascript}{
   \lstset{
-        language=JavaScript,
-        breaklines=true,
-        commentstyle=\textit,
-        basicstyle=\ttfamily,
-        keywordstyle=\bfseries,
-        stringstyle=\ttfamily,
-        showstringspaces=false,
-        frame=single,
-        tabsize=2
+    language=JavaScript,
+    breaklines=true,
+    commentstyle=\textit,
+    basicstyle=\ttfamily,
+    keywordstyle=\bfseries,
+    stringstyle=\ttfamily,
+    showstringspaces=false,
+    frame=single,
+    tabsize=2
   }
 }
 \usepackage{glsl}
+\renewcommand{\lstlistlistingname}{List of Listings}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-% Thesis development
+
+% Thesis development %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \usepackage{cgsnotes}
 \usepackage{cgsparagraphclassification}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-% Title page
+
+% Title page %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \logo{img/logo_black}
 
-\title{{\huge Network-based Accessibility Maps}\\[-2mm] {\huge for Web Applications and Mobile Devices}}
-%\title{Network-based Visualization and Interactive Rendering of Accessibility Maps for Mobile Devices and Web Applications}
-%\subtitle{Netzwerkbasierte Erreichbarkeitskarten\\ für Web-Anwendungen und mobile Ger\"ate}
-%\subtitle{Netzwerkbasierte Visualisierung und interaktives Rendering von Erreichbarkeitskarten in mobilen und Web-Anwendungen}
+\title{
+  \huge Network-based Accessibility Maps\\
+  for Web Applications and Mobile Devices
+}
+%\subtitle{}
 
 \subject{
-    Master's thesis for obtaining the academic degree\\[1em]
-    \enquote{Master of Science} (M.Sc.)\\[1em]
-    in Geoinformation and Visualization\\
-    at the chair of Computer Graphics Systems,\\
-    Hasso-Plattner-Institute, University of Potsdam, Germany
-    \vfill
-    submitted by}
+  Master's thesis for obtaining the academic degree\\[1em]
+  \enquote{Master of Science} (M.Sc.)\\[1em]
+  in Geoinformation and Visualization\\
+  at the chair of Computer Graphics Systems,\\
+  Hasso-Plattner-Institute, University of Potsdam, Germany
+  \vfill
+  submitted by
+}
 \author{Alexander Schoedon, B.Sc.}
 
-\publishers{%
-    Advisors:\\
-    Prof.\ Dr.\ J\"urgen D\"ollner\\
-    Dr. Matthias Trapp}
+\publishers{
+  Advisors:\\
+  Prof.\ Dr.\ J\"urgen D\"ollner\\
+  Dr. Matthias Trapp
+}
 
 \place{Potsdam}
 \date{\today}
-
-%\renewcommand*{\listlistingname}{List of XYZ}
-\renewcommand{\lstlistlistingname}{List of Listings}
-
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+% Document %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{document}
 \frontmatter
 \maketitle
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%\addchap{Sandbox}
-%
-%This is really early work. It is important to test the powerful tools provided by the \texttt{cgsthesis} class.\par
-%\vfill
-%
-%Let's test low priority in-line to-dos.\lowinlinetodo{Testing low priority in-line to-dos.}
-%Let's test medium priority in-line to-dos.\mediuminlinetodo{Testing medium priority in-line to-dos.}
-%Let's test high priority in-line to-dos.\highinlinetodo{Testing high priority in-line to-dos.}
-%Let's test massive priority in-line to-dos.\massiveinlinetodo{Testing massive priority in-line to-dos.}
-%Let's test blocking priority in-line to-dos.\blockinginlinetodo{Testing blocking priority in-line to-dos.}
-%\vfill
-%
-%\pprelim
-%This is a preliminary drafted text, please work on this.\par
-%\pfeedback
-%This is a to-be-reviewed text, get feedback on that version.\par
-%\pfinal
-%This is a final, multiple times reviewed version, submit it.\par
-%\vfill
-%\lowinlinetodo{Remove the sandbox page.}
 
-%\addchap{Roadmap}
-%\begin{itemize}
-%\itemsep-0.7em
-%\item[\textbf{04} ~ ~ ~ ~ ~] \textbf{April}
-%\item[15.04 . . . . ] Camera Ready Copy: Short Paper EuroVis 2016
-%\item[22.04 . . . . ] Master's Thesis: Road map, Table of Contents
-%\item[29.04 . . . . ] Specification: White paper Back end
-%\item[ ]              ~
-%\item[\textbf{05} ~ ~ ~ ~ ~] \textbf{May}
-%\item[07.05 . . . . ] Code: Proof-of-Concept \#5 (WebGL Tiling)
-%\item[13.05 . . . . ] Code: Proof-of-Concept \#5 (WebGL Tiling)
-%\item[20.05 . . . . ] Draft: Short Paper Presentation EuroVis 2016
-%\item[27.05 . . . . ] Code: Proof-of-Concept \#5 (WebGL Tiling)
-%\item[ ]              ~
-%\item[\textbf{06} ~ ~ ~ ~ ~] \textbf{June}
-%\item[03.06 . . . . ] Revise: Short Paper Presentation EuroVis 2016
-%\item[10.06 . . . . ] Conference: EuroVis 2016 Groningen
-%\item[17.06 . . . . ] Code: Proof-of-Concept \#6 (glTF Tiling)
-%\item[24.06 . . . . ] Code: Proof-of-Concept \#6 (glTF Tiling)
-%\item[ ]              ~
-%\item[\textbf{07} ~ ~ ~ ~ ~] \textbf{July}
-%\item[01.07 . . . . ] Code: Proof-of-Concept \#6 (glTF Tiling)
-%\item[08.07 . . . . ] Thesis: Write Chapter \#5 (Web-based proof-of-concept)
-%\item[15.07 . . . . ] Thesis: Write Chapter \#4 (Conception of the technique)
-%\item[22.07 . . . . ] Thesis: Write Chapter \#3 (Requirements for the technique)
-%\item[29.07 . . . . ] Thesis: Write Chapter \#6 (Application examples and evaluation)
-%\item[ ]              ~
-%\item[\textbf{08} ~ ~ ~ ~ ~] \textbf{August}
-%\item[05.08 . . . . ] Thesis: Write Chapter \#7 (Discussion of the results)
-%\item[12.08 . . . . ] Thesis: Write Chapter \#2 (Overview and related work)
-%\item[19.08 . . . . ] Thesis: Write Chapter \#1 (Introduction)
-%\item[26.08 . . . . ] Thesis: Write Chapter \#8 (Conclusion)
-%\item[ ]              ~
-%\item[\textbf{09} ~ ~ ~ ~ ~] \textbf{September}
-%\item[02.09 . . . . ] Thesis: First Review Copy
-%\item[09.09 . . . . ] Review: Feedback Loop \#1
-%\item[16.09 . . . . ] Review: Feedback Loop \#2
-%\item[23.09 . . . . ] \textit{(Conference)}
-%\item[30.09 . . . . ] Review: Layout \& Final Setting
-%\item[ ]              ~
-%\item[\textbf{10} ~ ~ ~ ~ ~] \textbf{October}
-%\item[07.10 . . . . ] \textit{(Hackathon)}
-%\item[14.10 . . . . ] \textit{(Hackathon)}
-%\item[21.10 . . . . ] \textit{(Hackathon)}
-%\item[28.10 . . . . ] \textit{(Hackathon)}
-%\item[\textbf{11} ~ ~ ~ ~ ~] \textbf{November}
-%\item[04.11 . . . . ] Camera Ready Copy: Master's Thesis
-%\end{itemize}
-%~ \vfill
-%\lowinlinetodo{Remove the roadmap from document.}
-%Title page: Check if CGS header is available in English.\lowinlinetodo{Check if CGS header is available in English.}
-%Table of Contents: Add nomenclature\mediuminlinetodo{Add nomenclature to document.}
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\cleardoublepage              %%% Abstract                                   %%%
+% Abstract %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\cleardoublepage
 \addchap{Abstract}
-
-%\pfeedback
-Accessibility is a fundamental aspect in transportation, routing, and spare-time activity planning concerning traveling in modern cities. In this context, interactive web-based accessibility-map visualization techniques and systems are important tools for provisioning, exploration, analysis, and assessment of multi-modal and location-based travel time data and routing information. To enable their effective application, such interactive visualization techniques  demands for flexible mappings with respect to user-adjustable parameters such as maximum travel times, the types of transportation used, or displayed color schemes. However, traditional approaches for web-based visualization of transportation networks do not allow this degree of parametrization without significant latencies introduced by required data processing and transmission between the routing server and the visualization client. This thesis presents a novel web-based visualization technique that allows for efficient client-side mapping and rendering of accessibility data onto complex transportation networks using WebGL and glTF. A performance evaluation and comparison shows the superior performance of the approach over alternative implementations.\\[1em]
-
-%\pprelim
-%\textit{Die Erreichbarkeit ist ein wesentlicher Aspekt in Transport, Routing und Freizeitaktivitätenplanung in Bezug auf in modernen Städten reisen. In diesem Zusammenhang, interaktive Web-basierte Zugänglichkeit-Karte Visualisierungstechniken und Systeme sind wichtige Werkzeuge für die Bereitstellung, Exploration, Analyse und Bewertung von multimodalen und standortbasierte Reisezeitdaten und Routing-Informationen. Um ihre effektive Anwendung, wie interaktive Visualisierungstechniken Anforderungen für flexible Zuordnungen in Bezug auf vom Benutzer einstellbare Parameter wie maximale Fahrzeiten ermöglichen, die Art von Transport, oder Farbschemata verwendet. Allerdings traditionelle Ansätze für die webbasierte Visualisierung der Zugänglichkeit-Karten erlauben nicht dieses Maß an Parametrisierung ohne signifikante Verzögerungen durch erforderliche Datenverarbeitung und Übertragung zwischen dem Routing-Server und dem Client Visualisierung eingeführt. Dieser Beitrag stellt eine neuartige webbasierte Visualisierungstechnik, die für eine effiziente Client-seitige Abbildung und Rendering der Zugänglichkeit von Daten auf Transportnetze mit WebGL und die OpenGL-Übertragungsformat ermöglicht. Eine Leistungsbewertung und der Vergleich zeigt die überlegene Leistung der Ansatz über alternative Implementierungen.}%\mediuminlinetodo{Translate abstract to German. Avoid Google Translate ;-)}
+Accessibility is a fundamental aspect in transportation, routing, and spare-time
+activity planning concerning traveling in modern cities. In this context,
+interactive web-based accessibility-map visualization techniques and systems
+are important tools for provisioning, exploration, analysis, and assessment of
+multi-modal and location-based travel time data and routing information. To
+enable their effective application, such interactive visualization techniques
+demands for flexible mappings with respect to user-adjustable parameters such
+as maximum travel times, the types of transportation used, or displayed color
+schemes. However, traditional approaches for web-based visualization of
+transportation networks do not allow this degree of parametrization without
+significant latencies introduced by required data processing and transmission
+between the routing server and the visualization client. This thesis presents
+a novel web-based visualization technique that allows for efficient client-side
+mapping and rendering of accessibility data onto complex transportation
+networks using WebGL and glTF. A performance evaluation and comparison shows
+the superior performance of the approach over alternative implementations.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\cleardoublepage              %%% TABLE OF CONTENTS                          %%%
+% Table of contents and lists %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\cleardoublepage
 \phantomsection
 \addcontentsline{toc}{chapter}{Table of Contents}
 \tableofcontents
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\cleardoublepage              %%% LIST OF FIGURES                            %%%
+\cleardoublepage
 \listoffigures
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\cleardoublepage              %%% LIST OF TABLES                             %%%
+\cleardoublepage
 \listoftables
+
+\cleardoublepage
+\lstlistoflistings
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\cleardoublepage              %%% LIST OF LISTINGS                           %%%
-\lstlistoflistings % @TODO list of listings
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
+% Content %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \mainmatter
-
 \include{chpt/01.intro.inc}
 \include{chpt/02.overv.inc}
 \include{chpt/03.requr.inc}
@@ -200,33 +146,35 @@ Accessibility is a fundamental aspect in transportation, routing, and spare-time
 \include{chpt/06.evalu.inc}
 \include{chpt/07.discu.inc}
 \include{chpt/08.concl.inc}
-
-\pfinal
-\printbibliography[title={References},category=cited,heading=bibintoc]
-
-\pfinal
-%\citesupplementary{Alvarez.etal-1992}
-\printbibliography[title={Further reading},category=supplementary,resetnumbers=true,heading=bibintoc]
-
-\pfinal
-\nocite{*}
-\printbibliography[title={Uncited references},notcategory=cited,resetnumbers=true,heading=bibintoc]
-%~ \vfill
-%\lowinlinetodo{Remove the uncited references from document.}
-
-\pfinal
-\appendix
-
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\backmatter
-%\phantomsection
-%\addcontentsline{toc}{chapter}{To-do-list}
-%\pfinal
-%\listoftodos
-%~ \vfill
-%\lowinlinetodo{Remove the to-do-list from document.}
 
-\pfinal
+
+% References %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\printbibliography[
+  title={References},
+  category=cited,
+  heading=bibintoc
+]
+% @TODO \citesupplementary{Alvarez.etal-1992}
+\printbibliography[
+  title={Further reading},
+  category=supplementary,
+  resetnumbers=true,
+  heading=bibintoc
+]
+\nocite{*} % @TODO remove uncited references
+\printbibliography[
+  title={Uncited references},
+  notcategory=cited,
+  resetnumbers=true,
+  heading=bibintoc
+]
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+% Appendix %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\appendix
+\backmatter
 \include{statutorydeclaration}
 \end{document}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
