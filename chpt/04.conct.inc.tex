@@ -1,0 +1,182 @@
+%!TEX root = schoedon.tex
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\cleardoublepage              %%% CONCEPT                                    %%%
+\chapter{Conception of glTF Tiling}
+  This section briefly discusses design decisions on web-mapping frameworks, data
+  formats, and required geographic projections. To evaluate the concepts based on
+  real-world data sets, we choose to rely on the Route360-JS$^\circ$ API for server-side
+  computing of routing data. Although there are alternatives with advanced WebGL-integrations
+  available (e.g., OpenLayers 3, Cesium), this work focuses on the web-mapping framework
+  Leaflet-JS for interoperability with the Route360$^\circ$-JS API. However, the
+  glTF-based approach is not specific to Leaflet and can be integrated into other
+  web-mapping frameworks.\par
+  The exemplary transportation network used in this paper is a part of an OSM data
+  set of Berlin. It comprises streets, footways, and data of the transportation
+  infrastructure network. Based on this network a single-source shortest-path accessibility
+  analysis \cite{Meyer2001} is performed using the Route360$^\circ$-JS API. It results in
+  the travel times required by foot, bicycle, car, or public transportation from a
+  single starting point to all remaining nodes of the network. The geometry, topology,
+  and accessibility data (represented on a per-node basis) is stored in a database which
+  is used for data conversion to the file formats of our visualization techniques.\par
+
+  \section{Preliminaries and assumptions}
+    \subsection{Open geographic data sets}
+    \subsection{Geographic projections}
+      To minimize the processing of data and allow easy GL-transformations, it's important to reduce reprojections and avoid spherical units (e.g. degree, lat/lon).\par
+      Leaflet uses the \texttt{EPSG:4326} standard projection which is the world geodetic system 1984 (WGS84) and uses a latitude/longitude coordinate format. This means, all programming interfaces of Leaflet return values in degree.\par
+      Internally, Leaflet uses \texttt{EPSG:3857}, the web mercator projection, a metric system going back to Gerard Mercator's flat world map in 1569 [25]. It uses northing and easting as a measure of distance in meters from the equator and the prime meridian. This is already an advantage over WGS84 as it does not require computing-intense spheric transformations in calculations. Unfortunately, Leaflet does not allow access to the internal metric system without automatically triggering one or more reprojections from/to WGS84 [23].\par
+
+%%%      \begin{figure}[h]
+%%%        \centering
+%%%        \includegraphics[width=0.3\textwidth]{resources/earth-256.pdf}
+%%%        \caption{The world in 256 square pixels.}
+%%%        \label{fig:earth256}
+%%%      \end{figure}
+
+      To simplify the geographic coordinates, all geographic references will be projected on a single tile of size 256*256 pixel with it's origin in the north-west corner (see figure \ref{fig:earth256}). In this reference system, the Brandenburg Gate in Berlin would be at pixel coordinate \texttt{[137.51253, 83.9612]}. This allows enough precision, moves as close as we can get to hardware-coordinates and is still device-independent.\par
+
+      To minimize the client-side data processing and to reduce transformation operations,
+      it's important to reduce re-projections and avoid spherical units (e.g., degree,
+      latitude/longitude). Leaflet-JS uses the EPSG:4326 standard projection, which is
+      the world geodetic system 1984 (WGS84) and uses a latitude/longitude coordinate
+      format, thus all programming interfaces of Leaflet return values in degree.
+      To remove the need for computing-intense spherical transformation and to simplify
+      coordinates, all geographic references are projected to a normalized range $[0, 1]$
+      with it's origin in the north-west corner. This moves as close as we can get to
+      hardware-coordinates and conveys device-independence.\par
+      To dis\-play geographic coordinates in Mercator projection (EPSG:3857) on a GPU-rendered
+      map, two major steps have to be performed. First, the geographic projection of
+      each coordinate has to be transformed into a normalized projection by translating
+      the coordinate origin to the top-left corner by the distance of half an equator.
+      Further, the units will be scaled from 40.075.016 meters to a normalized range
+      of~$[0,1]$. Finally, this projection has to be transformed to screen space coordinates
+      of the current device viewport.  The device coordinate origin will be translated
+      to the top-left corner of the visible viewport. The geometry view will be scaled
+      using the current zoom level scale factor and visible canvas size. The top-left
+      corner of the map can be retrieved from Leaflet-JS and used as an offset for
+      the model view to translate to the displayed geometries~(Fig.~\ref{WD:Fig:ViewportMapping}).
+    \subsection{Transportation modes}
+    \subsection{Backend specification}
+    \label{sec:conc:back}
+      %%%\pfinal
+      %%%\highinlinetodo{Integrate back-end specification.}
+      %%%\pprelim
+      %preprocessing of the network geometry
+      %goal reduce computations required for browser based mapping and rendering
+      %given geographic network coordinates (lat,lon)
+      %required coordinate representation close to rendering
+      %approach compute webgl optimized tiles in normalized reference system
+      % encode tiles using a specific transmission format
+      % network preprocessing is only required once
+    \subsection{Transmission formats}
+      Due to the data-intense applications in webmapping services, most implementations follow a client/server model. It's important to research and evaluate options on exchange formats for the underlying geodata.\par
+      The following formats are considered worth for comparison.
+      \begin{itemize}
+      \item In computer graphics, the COLLADA digital asset exchange format (\texttt{.dae}) is used for modelling purposes and exchange of editable 3D models.
+      \item The new OpenGL transfer fromat (\texttt{.gltf}) is currently being drafted by the Khronos Group [13] and promises to be a file format more close to the hardware requirements.
+      \item In geoinformation sciences, GeoJSON is a JavaScript object notation (\texttt{.json}) which is extended by geographic features with geometries and properties.
+      \item The Geography Markup Language (\texttt{.gml}) is an XML grammar for expressing geographical features.
+      \end{itemize}
+      Formats not taken into account are KML, Google's equivalent to GML, and TopoJSON, another JSON format with merged geometry fields. In addition, raster data formats are ignored as they do not store any extractable geometry information.\par
+      Table \ref{tab:dataform} compares the stated formats and evaluates both, their space-complexity and postprocessing requirements. The space-complexity is important to evaluate the required bandwidth for the application. The postprocessing is the aforementioned bottleneck in performance of transforming geographic data into close-to-hardware array buffers for the GPUs.\par
+
+%%%      \begin{table}[!h]
+%%%        \centering
+%%%        \begin{tabular}{l|c|l}
+%%%          Format & Space-Complexity & Client-Postprocessing\\ \hline
+%%%          \cellcolor{yellow!15}.dae.gz & \cellcolor{green!15}\texttt{++} & \cellcolor{red!15}required, decompress \\
+%%%          \cellcolor{green!15}.bgltf & \cellcolor{green!15}\texttt{+o} & \cellcolor{green!15}not required \\
+%%%          \cellcolor{yellow!15}.gltf.gz & \cellcolor{green!15}\texttt{+o} & \cellcolor{yellow!15}decompress only \\
+%%%          \cellcolor{yellow!15}.dae & \cellcolor{yellow!15}\texttt{oo} & \cellcolor{red!15}required \\
+%%%          \cellcolor{yellow!15}.gltf & \cellcolor{red!15}\texttt{o-} & \cellcolor{green!15}not required \\
+%%%          \cellcolor{red!15}.json & \cellcolor{red!15}\texttt{o-} & \cellcolor{red!15}required \\
+%%%          \cellcolor{red!15}.gml & \cellcolor{red!15}\texttt{---} & \cellcolor{red!15}required \\
+%%%        \end{tabular}
+%%%        \caption{Comparison of data formats}
+%%%        \label{tab:dataform}
+%%%      \end{table}
+      Concerning the space requirements, both glTF and COLLADA perform above average. Base of the comparison are the Cesium Milk Truck and Cesium Man by Analytical Graphics Inc [9]. The binary version of glTF (\texttt{.bgltf}) is even smaller than a gzipped version (\texttt{.gltf.gz}). Classic geodata formats fail in terms of space-complexity since both, JSON and XML formats are quite bloated.\par
+      Concerning the client-side postprocessing requirements, only the OpenGL transfer format allows to store array buffers which eleminates any javascript processing other than requesting and reading the data. This is an obvious knockout criteria for the other candidates and therefore glTF will be considered the best choice for this application. Details on the postprocessing issues will be discussed in section \ref{sec:issue}.\par
+      For handling data-intense client/server communication, it is important to
+      evaluate options on data exchange formats. Both, Coughlin and Trevett motivate
+      why a standardized data format close to hardware devices for applications on the
+      web are required \cite{Coughlin2014,Trevett2012}. We considered the following file
+      formats for comparison: (1) COLLADA this digital
+      asset exchange format (\texttt{.dae}) has been established for modeling purposes
+      and exchange of geometry and scene descriptions~\cite{Barnes2008}; (2) the Geography
+      Markup Language (\texttt{.gml}) is based on a~XML grammar standardized by the Open
+      Geospatial Consortium~(OGC) to represent geographical features~\cite{GML2007}; (3)
+      GeoJSON (\texttt{.json}) a JavaScript object notation that is extended by geographic
+      features comprising geometries and its properties~\cite{Butler2008}; and (4) the
+      OpenGL transmission format (\texttt{.gltf}) was recently released by Khronos Group
+      and is designed to be a file format close to the requirements of the rendering
+      hardware~\cite{Cozzi2015}. Table~\ref{WD:Tab:DataFormats} (next page) compares
+      the file formats with respect to their memory footprint and client-side processing
+      requirements. The former is important to evaluate the required bandwidth, while
+      the processing is the aforementioned bottleneck in performance of transforming
+      geographic data into GPU array-buffers.
+
+      %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+      %%
+      %% Table: Data Formats
+      %%
+      %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%      \begin{table}[tb]
+%%      \centering
+%%      \begin{tabular}{|l|r|l|}
+%%       \hline
+%%        \textbf{Format}                     & \textbf{Memory (Byte)}    & \textbf{Client Processing}\\\hline
+%%        \cellcolor{red}\texttt{.dae.gz}     & \cellcolor{green}54,949   & \cellcolor{red}required, decompress \\
+%%        \cellcolor{yellow}\texttt{.gltf.gz} & \cellcolor{green}58,791   & \cellcolor{yellow}decompress only \\
+%%        \cellcolor{red}\texttt{.json.gz}    & \cellcolor{green}67,693    & \cellcolor{red}required, decompress \\
+%%        \cellcolor{green}\texttt{.glb}      & \cellcolor{green}89,168   & \cellcolor{green}not required \\
+%%        %\cellcolor{green}\texttt{.bgltf}    & \cellcolor{green}89,514   & \cellcolor{green}not required \\
+%%        \cellcolor{yellow}\texttt{.gltf}    & \cellcolor{yellow}173,597 & \cellcolor{green}not required \\
+%%        \cellcolor{red}\texttt{.gml.gz}     & \cellcolor{yellow}211,137 & \cellcolor{red}required, decompress\\
+%%        \cellcolor{red}\texttt{.dae}        & \cellcolor{yellow}212,788 & \cellcolor{red}required \\
+%%        \cellcolor{red}\texttt{.json}       & \cellcolor{red}824,790    & \cellcolor{red}required \\
+%%        \cellcolor{red}\texttt{.gml}        & \cellcolor{red}2,698,953   & \cellcolor{red}required \\
+%%        \hline
+%%      \end{tabular}
+%%      \caption{Comparison and rating (dark background means not suitable) of data formats
+%%      with respect to the amount of memory required for server-to-client data  transmission
+%%      and client-side processing prior to rendering. The data set used for comparison
+%%      comprises 1840 vertices and 3624 faces (no texture data included).}
+%%      \label{WD:Tab:DataFormats}
+%%      \afterFloat
+%%      \end{table}
+      %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+      Concerning memory consumptions, both glTF and COLLADA perform above average. The
+      comparison uses the Cesium Milk Truck (provided by Analytical Graphics Inc.). As
+      a result, the gzipped version of glTF (\texttt{.gltf.gz}) is more compact than a
+      binary version (\texttt{.glb}). Due to high memory footprints, traditional
+      geodata formats (esp. JSON and GML) are not suitable for our approach (cf. R2). Further,
+      regarding the client-side processing requirements prior to rendering, the OpenGL
+      transfer format allows to store array buffers which eliminates any JavaScript
+      processing except requesting and reading the data. Due to this, and by respecting~
+      R1~and~R3, the glTF file format is considered to be the best choice.
+
+      % table all formats
+      % conclude gltf is awesome
+  \section{Mapping and rendering logic}
+    To display geographic coordinates on a GPU-rendered map, two major steps have to be performed.\par
+    First, the geographic projection has to be transformed into a pixel projection. Therefore, the coordinate origin has to be moved to the topleft corner by translating it along the x-axis and the negative y-axis for half an equator. The units will be scaled from 40.075.016 meters to 256 pixels.
+
+%%%    \begin{figure}[h]
+%%%      \centering
+%%%      \includegraphics[width=0.3\textwidth]{resources/viewport.pdf}
+%%%      \caption{Viewport coordinates overview.}
+%%%      \label{fig:viewport}
+%%%    \end{figure}
+
+    Finally, this pixel projection has to be made visible in the current viewport of the client's device. The device coordinate origin will be translated to the topleft corner of the visible viewport. The model view will be scaled using the current zoom level scale factor and visible canvas size.  The topleft corner of the map can be retrieved from Leaflet and used as an offset for the model view to translate to the displayed geometries (figure \ref{fig:viewport}).\par
+    % reduced mapping overhead due to
+    % tiled network geometry is decoded to rendering representation
+    % no coordinate transformations required
+    % corresponding travel times stored in separate vertex buffer object
+    % webgl based gpu rendering as map overlay
+    % direct buffer upload to gpu
+    % color gradient textures used by fragment shader
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%

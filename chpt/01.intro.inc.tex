@@ -1,0 +1,94 @@
+%!TEX root = schoedon.tex
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\cleardoublepage              %%% INTRODUCTION                               %%%
+\chapter{Introduction}
+  Today, accessibility analysis and visualization is often performed using Desktop GIS (Geographic Information Systems). Such systems exploit the computation power of desktop PC but posses limited applicability to everyday life, due to data availability and access, as well as expert domain knowledge required by a user. With respect to these restrictions, performing server-based accessibility analysis in combination with interactive web-based accessibility map visualization (Fig.~\ref{WD:Fig:Teaser}) has various advantages: (1) its usage is not limited to stationary desktop systems but available on a variety of devices (esp. mobile); (2) potentially massive data sources are not required to be completely transmitted, stored, or managed; and (3) implementations based on web-services and WebGL \cite{Jackson2016} can be easily integrated into existing systems and visualization frameworks.\par
+  \section{Motivation}
+    % mobility analytics, accessibility, reachability
+    Rendering transportation networks in web-based applications remains a performance critical task due to the complexity of the underlying geo-data. An OpenStreetMap graph dataset snapshot of the Berlin/Brandenburg region as of June 2016 contains around 2.4 million edges (2.9 million vertices) [22]. Using classic approaches to render such a huge dataset in a web browser either leaves users with a predefined, static layout (raster data) or a notable computation-intense rendering process (vector data).\par
+    This thesis proposes a new technology of web-based transportation network visualization with the application of network-based accessibility maps.\par
+  \section{Problem statement}
+    The two aforementioned solutions of styling and rendering web maps are widely established and have proven effective. But both approaches have certain drawbacks.\par
+    Data transmitted in prerendered \textbf{raster} data formats (e.g. png, jpg) does not require any client-side processing and can be compressed and cached easily. This is used by major web mapping services like Google or Bing maps. The disadvantage for interactive mapping solutions is the lack of possibilities for users to dynamically interact with the map and retrieve custom layouts at runtime without requesting a full map tile reload. Web services using this technology solve this with tiny vector overlays displaying additional user-styled information. But it is not possible to interact with the map data itself.\par
+    Geodata transmitted in \textbf{vector} formats (e.g. json, gml) opposes the raster tile approach and allows client-side stylization and rendering as the geographic raw data suddenly becomes available for the browser. But this advantage of options utilizing the geodata in the client comes with a major drawback in performance. Both the processing of the data and the rendering for the user are solved with CPU-consuming JavaScript algorithms\footnote{Some more recent solutions offer GPU-based rendering but fail with supplying convenient solutions of pre- or postprocessing of the vector data.}.\par
+
+    In contrast to existing accessibility-map visualization concepts, this paper focuses
+    on visualizing the travel time data directly on the respective transportation network
+    features, rather than (possibility generalized) polygons~\cite{Glander2010} or
+    specific graph layouts~\cite{Krause2012}. This enables a precise mapping of travel
+    data to the geo-referenced transportation network. However, considering the high
+    geometric complexity (vertices, primitives) introduced by increasing quality of
+    transportation networks~\cite{Zielstra2010}, e.g., of massive open data transportation
+    networks (OpenStreetMap (OSM) or General Transit Feed Specification (GTFS)), an
+    implementation of an interactive web-based visualization technique comprises a
+    number of conceptual and technical challenges.
+
+    Real-time rendering transportation networks as scenery for data visualization in
+    web-based applications is a performance critical task depending on the geometric
+    complexity of the network and associated travel times. For example, an OSM dataset
+    of the Berlin region comprises approx. $9 \cdot 10^5$ edges (Oct.~2015). Using
+    traditional visualization approaches using web browsers either faces users with
+    a predefined, static filtering and mapping (raster data) or a notable computation-intense
+    rendering process (vector data). These two fundamental approaches covering filtering,
+    mapping, and rendering web-based maps are widely established and have proven to be
+    effective, but exhibit drawbacks:
+
+    \begin{description}
+    %%
+    %% Raster Formats
+    %%
+    \item[Raster Formats:]
+    Data transmitted in pre-rendered raster data formats does not require any client-side
+    processing prior to rendering, can be compressed as well as cached~\cite{ESRI2006}, and
+    is used by major web-mapping services such as Google or Bing maps. However, one major
+    disadvantage is the lack for client-side filtering and mapping without requesting a
+    complete map tile reload.
+    %Web services using this technology approach this by using small vector overlays displaying
+    %additional user-styled information~\cite{VectorOverlays}, but it is not possible to transform with the map data itself.
+    %%
+    %% Vector Formats
+    %%
+    \item[Vector Formats:]
+    In contrast thereto, geodata transmitted using vector formats  enable client-side
+    filtering, mapping, and rendering. This client-side processing however introduces a
+    major performance impact: both the data processing and rendering are usually performed
+    on CPU using JavaScript (JS) algorithms. Recent approaches do support hardware-accelerated
+    rendering~(GPU) but lack functionality for client side vector data processing~\cite{Gaffuri2012}.
+    \end{description}
+
+    \noindent Thus, both approach changes in filtering (e.g., selecting a travel time threshold)
+    or mapping (e.g., color mapping, line styles etc.) would result in a complete data
+    re-transmission, loading, and processing. To summarize, an interactive visualization
+    technique for web-based accessibility maps should adhere to the following requirements
+    and challenges: it should support a web-based, hardware-accelerated implementation
+    using WebGL~\cite{Parisi2012}~(R1); a standardized and compact data representation that allows for decoupling
+    network geometry from temporal data to reduce data transmission and updates~(R2);
+    as well as enable interactive client-side filtering, mapping, and rendering for
+    visual feedback~(R3).
+    % existing approaches / drawbacks
+      % creation requires generalization
+      % lacks precision wrt network
+      % does not scale for more detailed display
+    % tools for experts only
+  \section{Contributions}
+    The challenge of this work is twofold interesting. On the one hand it is important to enable rendering using GPU-based techniques like WebGL [26]. This allows dynamic, interactive and user-defined layouts to be rendered directly on the client's device. But on the other hand it is a must to completely eliminate the client-side postprocessing of the geodata as this becomes a major performance bottleneck with increasing data complexity.\par
+    The solution presented in this paper is a geometry-based approach rather than known vector- or raster-based solutions. It maintains the goal to allow real-time rendering with outstanding performance and very low response times for the client.\par
+
+    This paper proposes a new approach for web-based visualization of accessibility
+    maps based on transportation network data. This geometry-based approach uses vector
+    data (lines) stored and transmitted using a new standardized glTF file format, which
+    reduces performance-critical computations in the visualization client (i.e., coordinate
+    transformations) and thus facilitates real-time rendering with high run-time performance
+    yielding low client response times. To summarize, this work makes the following contributions:
+    (1) it presents a concept to decouple the visualization geometry and data items for
+    interactive web-based accessibility maps based on Web\-GL~\cite{Jackson2016}, and (2)
+    it demonstrates the effectiveness of this approach by a comparative performance
+    evaluation of different implementation variants.\par
+    % complex network based visualization
+    % map travel times onto network
+    % compact data representation of the transportation network
+    % efficient client side mapping and rendering using webgl
+    % available on a variety of devices through web based provision
+  \section{Definitions}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%

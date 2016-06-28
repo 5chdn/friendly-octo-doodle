@@ -1,0 +1,306 @@
+%!TEX root = schoedon.tex
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\cleardoublepage              %%% IMPLEMENTATION                             %%%
+\chapter{Web-based proof-of-concept}
+  A proof-of-concept implementation is provided along with this thesis. It is targeted to work with web applications and mobile devices. In the following subsections the challenges with the web-based provision are examined. The architecture will be explained and the resulting applications will be presented.\par
+  This section covers Leaflet-JS integration details and limitations specific to
+  different prototypes of web-based implementations for transportation networks
+  used as scenery for an interactive accessibility-map visualization technique.
+  Subsequently, the performance of the following approaches for Leaflet-JS plug-ins
+  are evaluated~(Sec.~\ref{WD:SubSec:PerformanceEvaluation}).\par
+  \section{Architecture overview}
+    The current implementation requires a client/server architecture which offers both, a tiling service supplying the precalculated geometry tiles and a routing service supplying travel times on-request at runtime (figure \ref{fig:arch}).
+
+%    \begin{figure}[h]
+%      \centering
+%      \includegraphics[width=0.475\textwidth]{resources/arch.pdf}
+%      \caption{Architecture: tiling, routing, rendering.}
+%      \label{fig:arch}
+%    \end{figure}
+
+    The tiling server regulary fetches OpenStreetMap snapshots and loads them into a PostGIS database. A tiling algorithm developed by Silbersiepe (2015) filters the geodata based on attributes and zoom level and pregenerates tiles for at least 20 zoom levels [27].\par
+    A routing server operated by Motion Intelligence GmbH provides travel times based on the selected transportation type (e.g. car, bike, public transport) and a starting location. This data can be requested multiple times without the need to update the underlying geometry tiles again.\par
+
+    The approach follows a server-client architecture which is common for most web applications [?]. Figure \ref{fig:poc:arch} gives a first overview.\par
+    \begin{figure}[h]
+      \centering
+      \includegraphics[width=\linewidth]{./img/conceptual-overview-bw.pdf}
+      \caption{Architecture of preprocessing back-end and visualization client.}
+      \label{fig:poc:arch}
+    \end{figure}
+    The backend consists of three components:
+    \begin{description}
+      \item[Geo-Database] A geographic database server contains the street and transportation networks. It maintains updates from a remote geo-data source, e.g., OpenStreetMap, and processes the data into a routing-enabled graph representation.
+      \item[Tiling-Server] A tiling server processes the static network data into a tiled glTF data set. This data only has to be generated once and will be available on-demand for any future geometry requests.
+      \item[Routing-Server] A routing server handles dynamic requests based on the user's selected starting location, transportation type and maximum travel time. It responds with customized routing information for the underlying transportation network.
+    \end{description}
+    The front-end contains the mapping and rendering stages. A glTF reader will request and load the network geometries. Based on the user inputs, routing data will be queried. All responses are mapped, cached and rendered in the client.\par
+    As described in section \ref{sec:conc:back}, the back-end is not subject to further technical specification in this document. Therefore, the following applications strongly focus on the front-end implementation and visualization.\par
+  \section{Iterative development process}
+    To allow fast evaluation of the results gained during the development phases, an evolutionary development process is applied to reach different proof-of-concept stages. The iterative process allows go through development, testing and evaluation phases quickly [?] and move ...\par
+    The back-end specified in section \ref{sec:conc:back} is provided and maintained by Motion Intelligence GmbH. ...\par
+    % api communication with motion intelligence gmbh
+    The implementation is solved by an evolutionary prototyping process. The presented prototypes are therefore not comparable but rather help to outline issues with existing solutions and pave the way to the -- for this paper -- final solution utilizing glTF geometry tiles. Four prototypes are implemented:
+    \begin{description}
+      \item[Pt. \#1] Leaflet with native lines (JavaScript, GeoJSON)
+      \item[Pt. \#2] Leaflet with canvas overlay (WebGL, GeoJSON)
+      \item[Pt. \#3] Leaflet with view port query (WebGL, GeoJSON)
+      \item[Pt. \#4] Leaflet with geometry tiling (WebGL, glTF)
+    \end{description}
+    Prototype \#1 is not interesting for this work as it neither uses WebGL nor glTF and is only implemented to have a classic solution available. In addition, the performance of the first prototype is very poor, even for small distance maps (5 minutes travel time). It can be discarded directly.\par
+    Prototype \#2 is interesting both for the successful WebGL integration in Leaflet and the issues arising with GeoJSON post-processing. See section ??? for more details.\par
+    Prototype \#3 is utilizing view-port-based server requests on GeoJSON data. This approach is consuming too much bandwidth and server-capacities. Therefore, it is discarded in favor of a tile-based approach developed in the next step.\par
+    Prototype \#4 is implementing a geometry tile service explicitly utilizing the glTF data exchange format. See section ??? for more details.
+  \section{Proof-of-concept applications}
+    In the following subsections five proof-of-concept applications will be presented.\par
+    \subsection{Leaflet native network rendering}
+      A reference implementation in Leaflet is provided (figure \ref{fig:poc:one}). It does not utilize hardware acceleration or WebGL rendering. It processes the vector data in GeoJSON format using the native Leaflet JavaScript class \texttt{L.GeoJson}. Therefore, both the mapping and rendering will be performed on CPU.\par
+      \begin{figure}[h]
+        \centering
+        \includegraphics[width=0.7\linewidth]{./img/screenshot-poc1-600s-native.png}
+        \caption{An accessibility map rendered native with Leaflet vector tiles in GeoJSON format. The selected transportation mode is walking and the displayed travel time is 10 minutes.}
+        \label{fig:poc:one}
+      \end{figure}
+      The rendered street network for 600 seconds travel time in walking mode contains 13,829 features (25,821 vertices). It shows a major performance bottleneck for both the mapping and the rendering stage. It wont be evaluated any further and is only used for the performance comparison in section \ref{sec:comp} as native Leaflet reference without WebGL hardware acceleration.
+
+    \subsection{Leaflet WebGL canvas overlay}
+      Leaflet provides a 2D \texttt{L.map()} canvas on a \texttt{<div id="map" />} HTML DOM element. This can be used for basic web mapping tools like raster base tiles or simple vector items. The extended class \texttt{L.canvasOverlay()} provides Leaflet with a 3D overlay which handles redrawing of the canvas and therefore allows basic WebGL context integration (figure \ref{fig:overlay}).
+
+%%%      \begin{figure}[h]
+%%%        \centering
+%%%        \special{ps: 0.4 .setopacityalpha}
+%%%        \includegraphics[width=0.3\textwidth]{resources/canvasoverlay.pdf}
+%%%        \caption{3D overlay on 2D map canvas.}
+%%%        \label{fig:overlay}
+%%%      \end{figure}
+
+      On each map interaction, a \texttt{drawGL()} call will be triggered by the overlay. This function reads the underlying GeoJSON and extracts all geographic features. For each feature in the featureset, the algorithm checks the travel time properties and decides whether the feature is visible (below selected threshold) or not.\par
+      Each visible feature will be converted to typed array buffers for vertices and colours. Each coordinate of the geometry has to be mapped to pixel coordinates (section \ref{sec:pix}).\par
+      The Leaflet web-mapping framework does not offer any WebGL support, yet. Sumbrera [?] published a Leaflet canvas overlay class which provides a generic overlay over the map canvas and handles view-port coordinates and drawing events.\par
+      % https://blog.sumbera.com/2014/04/20/leaflet-canvas/
+      \begin{figure}[h]
+        \centering
+        \includegraphics[width=0.7\linewidth]{./img/leaflet-canvas-overlay.pdf}
+        \caption{Leaflet canvas overlay schematic: A 2D map canvas is provided by Leaflet, the overlay class allows the rendering of 3D contexts.}
+        \label{fig:poc:overlay}
+      \end{figure}
+      \lstinputlisting[float,caption={Leaflet canvas overlay},label={lst:poc:overlay}]{./lst/leaflet-canvas-overlay.js}
+      While Leaflet provides a map canvas on a HTML DOM element (e.g., \texttt{<div id='map'>}) for two dimensional vector and raster contexts, Figure \ref{fig:poc:overlay} shows how the \texttt{L.CanvasOverlay} class provides an additional context. The overlay can be used for custom HTML5 elements and handles view port coordinate alignment along with the underlying map. Furthermore, it can be utilized to bind a three dimensional context like WebGL and to handle the redrawing of the scene each time the map view changes (Listing \ref{lst:poc:overlay}).\par
+    \subsection{WebGL with tiled vector data}
+      Two.
+      \begin{figure}[h]
+        \centering
+        \includegraphics[width=0.7\linewidth]{./img/screenshot-poc2-600s-vector.png}
+        \caption{An accessibility map rendered with WebGL on a Leaflet canvas overlay utilizing vector tiles in GeoJSON format. The selected transportation mode is walking and the displayed travel time is 10 minutes.}
+        \label{fig:poc:two}
+      \end{figure}
+      This implementation shows two issues.\par
+      A blocking performance issue is the conversion from geodata to array buffers. For the mentioned dataset of only 15 minutes travel time this results in an iteration over 29.864 geographic features. In addition, the coordinates have to be iterated as well, leaving this example with 129.034 spheric conversions for 64.517 coordinates.\par
+      Another problem is the unability to access the internal \texttt{EPSG :3857} metric coordinates from Leaflet. All positions have to be transformed using compute-intense spherical (degree) rather than optimized metric conversions [23].\par
+      Leaflet-JS provides a 2D canvas on a HTML DOM element that is used for basic
+      web-mapping tools such as raster-based tiles or simple vector items. An extended
+      \textsl{canvas overlay} class provides Leaflet-JS with a 3D overlay that handles
+      re-drawing of the canvas and enables basic WebGL context integration. On each map
+      interaction, a draw call is issued by the overlay. This function processes the
+      underlying GeoJSON and (1) extracts all geographic features, (2) marks each feature
+      visible, if its travel time is below a user-selected threshold, and (3) converts
+      each visible feature to typed array buffers (vertices and colors), including coordinate mapping.\par
+      This implementation approach shows two performance bottlenecks: (1) the conversion
+      from geodata representation to GPU array-buffers and (2) coordinate transformations
+      for rendering~(cf.~Sec.~\ref{WD:SubSec:PerformanceEvaluation}). \par
+    \subsection{WebGL with tiled buffer data}
+      Table \ref{tab:tilopts} highlights the advantages of geometry tiling. The layout stays dynamic and can be adjusted at runtime by custom user inputs similar to vector tiling approaches.\par
+      The data processing is moved from client-side to server-side similar to raster tiling approaches. The result is high runtime preformance with low latencies and the resulting geometries can be cached client-side.\par
+      The rendering happens on dedicated graphic devices and ensures outstanding performance even for complex geodata sets.
+
+%%%      \begin{table}[!h]
+%%%        \centering
+%%%        \begin{tabular}{l|l|l|l}
+%%%          Tile & Layout & Processing & Rendering\\ \hline
+%%%          \cellcolor{yellow!15}Raster & \cellcolor{red!15}static & \cellcolor{green!15}Server & \cellcolor{red!15}Server\\
+%%%          \cellcolor{yellow!15}Vector & \cellcolor{green!15}dynamic & \cellcolor{red!15}Client/CPU & \cellcolor{green!15}Client/GPU\\
+%%%          \cellcolor{green!15}Geometry & \cellcolor{green!15}dynamic & \cellcolor{green!15}Server & \cellcolor{green!15}Client/GPU\\
+%%%        \end{tabular}
+%%%        \caption{Tiling options}
+%%%        \label{tab:tilopts}
+%%%      \end{table}
+      Figure \ref{fig:geotile} shows a screenshot of a modified version of the 4th prototype. It displays the geometry tile \texttt{[2200,1343]} at zoom level 12 rendered with WebGL using random colours.
+
+%%%      \begin{figure}[h]
+%%%        \centering
+%%%        \includegraphics[width=0.475\textwidth]{resources/geometry-tile.png}
+%%%        \caption{Geometry tile rendered with WebGL.}
+%%%        \label{fig:geotile}
+%%%      \end{figure}
+      Two Leaflet plugins are being developed to manage the tiling data logic [18].\par
+      \begin{itemize}
+        \item \texttt{L.TileBuffer} is the actual class for all geometry tiles. Each instance has the properties of \texttt{x}, \texttt{y} and \texttt{zoom}. In addition it stores the three required typed array buffers to render the tile with WebGL: a \texttt{Float32Array} for vertices, a \texttt{Uint16Array} for indices and a \texttt{Float32Array} for colours. This information is enough to render the complete tile in a single draw call.
+        \item \texttt{L.TileBufferCollection} is a class which implements the basic tile caching logic. It has a \texttt{zoom} and a \texttt{size} property. In addition, it holds a collection of \texttt{L.Tile\-Buffer} objects for the current zoom level. As soon as the client requests a redraw of the scene, the collection can be rendered based on zoom and position of the visible tiles.
+      \end{itemize}
+      On each load event of a tile, Leaflet will request the geometry (vertices and indices) from the tiling server and the travel times (colours) from the routing server. These three arrays are recieved in glTF format. They are used to create \texttt{L.TileBuffer} objects (figure \ref{fig:tbuff}).\par
+
+%%      \begin{figure}[h]
+%%        \centering
+%%        \includegraphics[width=0.3\textwidth]{resources/classes.pdf}
+%%        \caption{Two Leaflet plugins for geometry tiling.}
+%%        \label{fig:tbuff}
+%%      \end{figure}
+
+      This approach eliminates client-side data processing and represents a new geometry-tiling
+      approach based on glTF and following the common approach to partition map data
+      into portions of similar size. Figure~\ref{WD:Fig:ConceptualOverview} shows an conceptual
+      overview of our approach: (1) the input transportation network will be pre-processed
+      to glTF-tiles that are stored on a dedicated tiling server. In this step all
+      coordinate transformations required for rendering are performed and a correspondence
+      to the routing graph is established; (2) the visualization client queries the
+      geometry of the tiles according to the current viewport and request travel times
+      respectively by using the graph correspondence; (3) for visualization, the network
+      tiles are cached and directly used for mapping and rendering.\par
+      Table~\ref{WD:Tab:TilingOptions} highlights the advantages of glTF-tiling. It
+      supports client-side mapping (e.g., color mapping and lines styles) at runtime
+      on according to user inputs without retransmission of data, similar to vector
+      tiles. The data processing is transferred from client to server-side, similar
+      to raster-tiling approaches. This results in high run-time performance with
+      low latencies and the resulting geometries can be cached client-side. The
+      rendering is performed on dedicated GPU using WebGL and thus ensures real-time
+      performance for geometrical complex geodata sets.\par
+
+      %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+      %%
+      %% Table: Tiling approaches
+      %%
+      %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%      \begin{table}[b]
+%%      \centering
+%%      \beforeTable
+%%      \begin{tabular}{|c|c|c|c|}
+%%        \hline
+%%        \textbf{Tiling Approach}  & \textbf{Processing}       & \textbf{Mapping}         & \textbf{Rendering}\\ \hline
+%%        \cellcolor{yellow}Raster  & \cellcolor{green}Server   & \cellcolor{red}static    & \cellcolor{red}Server\\
+%%        \cellcolor{yellow}Vector  & \cellcolor{red}Client/CPU & \cellcolor{green}dynamic & \cellcolor{green}Client/GPU\\
+%%        \cellcolor{green}glTF     & \cellcolor{green}Server   & \cellcolor{green}dynamic & \cellcolor{green}Client/GPU\\
+%%        \hline
+%%      \end{tabular}
+%%      \caption{Comparison and rating (dark background means not suitable) of tiling
+%%      approaches with respect to the requirements of data processing, mapping, and
+%%      rendering.}
+%%      \label{WD:Tab:TilingOptions}
+%%      \afterFloat
+%%      \end{table}
+      %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+    \subsection{WebGL with tiled glTF data}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\cleardoublepage              %%% EVALUATION                                 %%%
+\chapter{Application examples and performance evaluation}
+  \section{Applications in cooperation with Motion Intelligence GmbH}
+    \subsection{Business location finder}
+    \subsection{Property market analysis}
+    \subsection{Spare-time activity planning}
+  \section{Comparison of the presented approaches}
+    \label{sec:comp}
+%%        \begin{figure*}[!htb]
+%%    \centering
+%%    \subfigure[Mapping]{
+%%    \begin{tikzpicture}[font=\footnotesize] % mapping
+%%    \begin{axis}[
+%%    height=0.28\textwidth,
+%%    width=0.5\textwidth,
+%%    xmin=1,
+%%    xmax=11,
+%%    %xlabel={Selected Traveltime [min]},
+%%    ymin=0.1,
+%%    ymax=10000,
+%%    %ylabel={Data Mapping Time [ms]},
+%%    ymode=log,
+%%    log basis y={10}]
+%%    \addplot[mark=0,orange,dotted,line width=\LWidth] coordinates { % firefox 44 prototype 1 processing
+%%    (1,84.000)(2,136.450)(3,242.255)(4,412.095)(5,692.355)(6,1265.080)(7,1832.860)(8,2721.000)(9,3372.600)(10,2996.470)};
+%%    \addplot[mark=0,blue,dotted,line width=\LWidth] coordinates { % chrome 48 prototype 1 processing
+%%    (1,59.915)(2,85.480)(3,283.025)(4,433.115)(5,660.120)(6,1504.855)(7,1693.070)(8,2259.295)(9,3131.565)(10,3643.855)};
+%%    \addplot[mark=0,orange,dashed,line width=\LWidth] coordinates { % firefox 44 prototype 2 processing
+%%    (1,1.140)(2,3.515)(3,13.040)(4,34.350)(5,62.375)(6,114.460)(7,170.040)(8,199.655)(9,268.255)(10,345.165)};
+%%    \addplot[mark=0,blue,dashed,line width=\LWidth] coordinates { % chrome 48 prototype 2 processing
+%%    (1,11.055)(2,58.585)(3,178.215)(4,421.640)(5,821.380)(6,1468.445)(7,2199.270)(8,3066.625)(9,4274.105)(10,5200.065)};
+%%    \addplot[mark=0,orange,line width=\LWidth] coordinates { % firefox 44 prototype 4 processing
+%%    (1,0.135)(2,0.155)(3,0.155)(4,0.190)(5,0.255)(6,0.360)(7,0.495)(8,0.595)(9,0.715)(10,0.855)};
+%%    \addplot[mark=0,blue,line width=\LWidth] coordinates { % chrome 48 prototype 4 processing
+%%    (1,0.415)(2,0.575)(3,0.670)(4,0.800)(5,1.345)(6,1.820)(7,1.865)(8,2.735)(9,4.090)(10,5.045)};
+%%    \node[orange,right] at (axis cs:10,0.855){\tiny{1}};
+%%    \node[blue,right] at (axis cs:10,5200.065){\tiny{5200}};
+%%    \end{axis}
+%%    \end{tikzpicture}
+%%    }\hfill
+%%    \subfigure[Rendering]{
+%%    \begin{tikzpicture}[font=\footnotesize] % rendering
+%%    \begin{axis}[
+%%    height=0.28\textwidth,
+%%    width=0.5\textwidth,
+%%    xmin=1,
+%%    xmax=11,
+%%    %xlabel={Selected Traveltime [min]},
+%%    ymin=0.1,
+%%    ymax=10000,
+%%    %ylabel={Data Rendering Time [ms]},
+%%    ymode=log,
+%%    log basis y={10}]
+%%    \addplot[mark=0,orange,dotted,line width=\LWidth] coordinates { % firefox 44 prototype 1 rendering
+%%    (1,292.975)(2,294.685)(3,305.135)(4,335.030)(5,507.010)(6,909.875)(7,1250.630)(8,2192.000)(9,3535.555)(10,6359.515)};
+%%    \addplot[mark=0,blue,dotted,line width=\LWidth] coordinates { % chrome 48 prototype 1 rendering
+%%    (1,251.585)(2,274.760)(3,247.165)(4,285.985)(5,261.875)(6,289.140)(7,281.230)(8,311.270)(9,284.100)(10,289.885)};
+%%    \addplot[mark=0,orange,dashed,line width=\LWidth] coordinates { % firefox 44 prototype 2 rendering
+%%    (1,0.350)(2,1.055)(3,4.005)(4,10.765)(5,21.205)(6,38.460)(7,58.675)(8,64.955)(9,87.875)(10,112.765)};
+%%    \addplot[mark=0,blue,dashed,line width=\LWidth] coordinates { % chrome 48 prototype 2 rendering
+%%    (1,1.405)(2,9.870)(3,29.425)(4,74.110)(5,147.415)(6,266.895)(7,392.185)(8,536.890)(9,789.865)(10,914.190)};
+%%    \addplot[mark=0,orange,line width=\LWidth] coordinates { % firefox 44 prototype 4 rendering
+%%    (1,0.320)(2,0.440)(3,0.500)(4,0.655)(5,1.220)(6,1.910)(7,3.015)(8,1.840)(9,2.395)(10,3.115)};
+%%    \addplot[mark=0,blue,line width=\LWidth] coordinates { % chrome 48 prototype 4 rendering
+%%    (1,1.800)(2,2.175)(3,3.165)(4,4.760)(5,4.465)(6,4.125)(7,3.510)(8,3.975)(9,3.095)(10,7.960)};
+%%    \node[orange,right] at (axis cs:10,3.115){\tiny{3}};
+%%    \node[orange,right] at (axis cs:10,6359.515){\tiny{6359}};
+%%    \end{axis}
+%%    \end{tikzpicture}
+%%    }
+%%    \caption{Run-time performance for data mapping and rendering with respect to different
+%%    travel times (1-10 min.), browser (blue: Chrome, orange: Firefox), and implementation
+%%    (dot: lines rendering, dash: canvas overlay, solid: glTF-tiles) in milliseconds on a
+%%    logarithmic scale.}
+%%    \label{WD:Fig:Performance}
+%%    \vspace{-0.3cm}
+%%    \end{figure*}
+      %%
+      %% Test Setup
+      %%
+      The tests are conducted using a Lenovo Thinkpad X230 equipped with an Intel Core
+      i7-3520M CPU running at 2.90GHz (Quadcore), 16GB DDR3-RAM @ 1600MHz (SODIMM),
+      and an integrated Intel HD Graphics 4000 with 256MB RAM (shared).\par
+      %%
+      %% Test Conditions
+      %%
+      The implementation variants are evaluated using Firefox~44.0 and Chrome~48.0
+      browsers running on an Arch Linux kernel. The tests are performed under the
+      following conditions: mapping and rendering run-time are measured
+      using the same zoom factor and center location (complete data set is visible)
+      using a full-screen viewport resolution of $1366 \times 768$ pixels.\par
+
+      %%
+      %% Test Data
+      %%
+      Table~\ref{WD:Tab:TestData} shows an overview of the test data used for performance
+      measurement. The data is a subset of the inner city of Berlin and comprises car
+      travel times from a single starting point (cf.~Fig.\ref{WD:Fig:Teaser}). Based on
+      the maximum travel time set by the user (required for an accessibility-map visualization),
+      the geometric complexity varies with respect to the number of vertices and lines
+      to be displayed.\par
+    \subsection{Transmission performance}
+    \subsection{Mapping performance}
+    \subsection{Rendering performance}
+  \section{Comparison with existing approaches}
+    \subsection{Raster tiling}
+    \subsection{Vector tiling}
+    \subsection{Filtered WebGL tiling}
+  \section{Performance evaluation on mobile devices}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%

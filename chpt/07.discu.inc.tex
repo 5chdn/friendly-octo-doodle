@@ -1,0 +1,42 @@
+%!TEX root = schoedon.tex
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\cleardoublepage              %%% DISCUSSION                                 %%%
+\chapter{Discussion of the results}
+  % highlight positive stuff here
+  %%
+  %% Test Results & Discussion of results
+  %%
+  Figure~\ref{WD:Fig:Performance} shows an overview of the performance comparison
+  results (more precise results are presented in the supplemental material).
+  These indicate superior run-time performance of the glTF approach over
+  the native line rendering and GeoJSON implementation for mapping and rendering.
+  Further, they show an increased scalability of the glTF approach w.r.t. the
+  geometric complexity of the network and significant differences in mapping
+  and WebGL 1.0 rendering performance for the different web browsers tested.\par
+%%    \begin{table}[tb]
+%%    %\beforeTable
+%%    \centering
+%%    \begin{tabular}{|l|r|r|r|r|r|}
+%%      \hline
+%%        & \multicolumn{5}{c|}{\textbf{Travel time in minutes}} \\\hline
+%%       \textbf{Geometry} & 1  & 2   &     4 &      8 & 10\\\hline
+%%      Vertices           & 36 & 162 & 1,901 & 14,874 & 25,821 \\
+%%      Edges              & 20 & 88  & 1,006 &  7,950 & 13,829 \\
+%%      \hline
+%%    \end{tabular}
+%%    \caption{Varying geometric complexity of the test data set.}
+%%    \label{WD:Tab:TestData}
+%%    \afterFloat
+%%    \end{table}
+  \section{Limitations of the presented approach}
+  \section{Further possible application areas}
+  \section{Recommendations for future work}
+    Based on these results, future work focuses on developing a glTF processing
+    back-end with separated tiling and routing server logic. The presented approach
+    supports the decoupling of network geometry and accessibility data, which further
+    reduces the amount of travel data transmission during updates. Further, a complete
+    working client/server infrastructure is evaluated regarding it's overall
+    performances to compare the results with traditional raster or vector approaches.\par
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
