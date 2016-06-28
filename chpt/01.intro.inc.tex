@@ -3,12 +3,15 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \cleardoublepage              %%% INTRODUCTION                               %%%
 \chapter{Introduction}
+  \label{chap:intro}
   Today, accessibility analysis and visualization is often performed using Desktop GIS (Geographic Information Systems). Such systems exploit the computation power of desktop PC but posses limited applicability to everyday life, due to data availability and access, as well as expert domain knowledge required by a user. With respect to these restrictions, performing server-based accessibility analysis in combination with interactive web-based accessibility map visualization (Fig.~{WD:Fig:Teaser}) has various advantages: (1) its usage is not limited to stationary desktop systems but available on a variety of devices (esp. mobile); (2) potentially massive data sources are not required to be completely transmitted, stored, or managed; and (3) implementations based on web-services and WebGL \cite{Jackson2016} can be easily integrated into existing systems and visualization frameworks.\par
   \section{Motivation}
+    \label{sec:intro:motiv}
     % mobility analytics, accessibility, reachability
     Rendering transportation networks in web-based applications remains a performance critical task due to the complexity of the underlying geo-data. An OpenStreetMap graph dataset snapshot of the Berlin/Brandenburg region as of June 2016 contains around 2.4 million edges (2.9 million vertices) [??]. Using classic approaches to render such a huge dataset in a web browser either leaves users with a predefined, static layout (raster data) or a notable computation-intense rendering process (vector data).\par
     This thesis proposes a new technology of web-based transportation network visualization with the application of network-based accessibility maps.\par
   \section{Problem statement}
+    \label{sec:intro:probl}
     The two aforementioned solutions of styling and rendering web maps are widely established and have proven effective. But both approaches have certain drawbacks.\par
     Data transmitted in prerendered \textbf{raster} data formats (e.g. png, jpg) does not require any client-side processing and can be compressed and cached easily. This is used by major web mapping services like Google or Bing maps. The disadvantage for interactive mapping solutions is the lack of possibilities for users to dynamically interact with the map and retrieve custom layouts at runtime without requesting a full map tile reload. Web services using this technology solve this with tiny vector overlays displaying additional user-styled information. But it is not possible to interact with the map data itself.\par
     Geodata transmitted in \textbf{vector} formats (e.g. json, gml) opposes the raster tile approach and allows client-side stylization and rendering as the geographic raw data suddenly becomes available for the browser. But this advantage of options utilizing the geodata in the client comes with a major drawback in performance. Both the processing of the data and the rendering for the user are solved with CPU-consuming JavaScript algorithms\footnote{Some more recent solutions offer GPU-based rendering but fail with supplying convenient solutions of pre- or postprocessing of the vector data.}.\par
@@ -72,6 +75,7 @@
       % does not scale for more detailed display
     % tools for experts only
   \section{Contributions}
+    \label{sec:intro:contr}
     The challenge of this work is twofold interesting. On the one hand it is important to enable rendering using GPU-based techniques like WebGL [??]. This allows dynamic, interactive and user-defined layouts to be rendered directly on the client's device. But on the other hand it is a must to completely eliminate the client-side postprocessing of the geodata as this becomes a major performance bottleneck with increasing data complexity.\par
     The solution presented in this paper is a geometry-based approach rather than known vector- or raster-based solutions. It maintains the goal to allow real-time rendering with outstanding performance and very low response times for the client.\par
 
@@ -91,4 +95,5 @@
     % efficient client side mapping and rendering using webgl
     % available on a variety of devices through web based provision
   \section{Definitions}
+    \label{sec:intro:def}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%

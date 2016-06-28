@@ -3,6 +3,7 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \cleardoublepage              %%% CONCEPT                                    %%%
 \chapter{Conception of glTF Tiling}
+  \label{chap:conct}
   This section briefly discusses design decisions on web-mapping frameworks, data
   formats, and required geographic projections. To evaluate the concepts based on
   real-world data sets, we choose to rely on the Route360-JS$^\circ$ API for server-side
@@ -21,8 +22,11 @@
   is used for data conversion to the file formats of our visualization techniques.\par
 
   \section{Preliminaries and assumptions}
+    \label{sec:conct:preli}
     \subsection{Open geographic data sets}
+      \label{sec:conct:preli:odata}
     \subsection{Geographic projections}
+      \label{sec:conct:preli:gproj}
       To minimize the processing of data and allow easy GL-transformations, it's important to reduce reprojections and avoid spherical units (e.g. degree, lat/lon).\par
       Leaflet uses the \texttt{EPSG:4326} standard projection which is the world geodetic system 1984 (WGS84) and uses a latitude/longitude coordinate format. This means, all programming interfaces of Leaflet return values in degree.\par
       Internally, Leaflet uses \texttt{EPSG:3857}, the web mercator projection, a metric system going back to Gerard Mercator's flat world map in 1569 [??]. It uses northing and easting as a measure of distance in meters from the equator and the prime meridian. This is already an advantage over WGS84 as it does not require computing-intense spheric transformations in calculations. Unfortunately, Leaflet does not allow access to the internal metric system without automatically triggering one or more reprojections from/to WGS84 [??].\par
@@ -57,8 +61,9 @@
       corner of the map can be retrieved from Leaflet-JS and used as an offset for
       the model view to translate to the displayed geometries~(Fig.~{WD:Fig:ViewportMapping}).
     \subsection{Transportation modes}
+      \label{sec:conct:preli:tmode}
     \subsection{Backend specification}
-    \label{sec:conc:back}
+      \label{sec:conct:preli:backe}
       %%%\pfinal
       %%%\highinlinetodo{Integrate back-end specification.}
       %%%\pprelim
@@ -70,6 +75,7 @@
       % encode tiles using a specific transmission format
       % network preprocessing is only required once
     \subsection{Transmission formats}
+      \label{sec:conct:preli:forma}
       Due to the data-intense applications in webmapping services, most implementations follow a client/server model. It's important to research and evaluate options on exchange formats for the underlying geodata.\par
       The following formats are considered worth for comparison.
       \begin{itemize}
@@ -161,6 +167,7 @@
       % table all formats
       % conclude gltf is awesome
   \section{Mapping and rendering logic}
+    \label{sec:conct:rendr}
     To display geographic coordinates on a GPU-rendered map, two major steps have to be performed.\par
     First, the geographic projection has to be transformed into a pixel projection. Therefore, the coordinate origin has to be moved to the topleft corner by translating it along the x-axis and the negative y-axis for half an equator. The units will be scaled from 40.075.016 meters to 256 pixels.
 

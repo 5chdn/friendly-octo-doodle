@@ -3,6 +3,7 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \cleardoublepage              %%% IMPLEMENTATION                             %%%
 \chapter{Web-based proof-of-concept}
+  \label{chap:imple}
   A proof-of-concept implementation is provided along with this thesis. It is targeted to work with web applications and mobile devices. In the following subsections the challenges with the web-based provision are examined. The architecture will be explained and the resulting applications will be presented.\par
   This section covers Leaflet-JS integration details and limitations specific to
   different prototypes of web-based implementations for transportation networks
@@ -10,6 +11,7 @@
   Subsequently, the performance of the following approaches for Leaflet-JS plug-ins
   are evaluated~(Sec.~{WD:SubSec:PerformanceEvaluation}).\par
   \section{Architecture overview}
+    \label{sec:imple:archi}
     The current implementation requires a client/server architecture which offers both, a tiling service supplying the precalculated geometry tiles and a routing service supplying travel times on-request at runtime (figure {fig:arch}).
 
 %    \begin{figure}[h]
@@ -36,10 +38,11 @@
       \item[Routing-Server] A routing server handles dynamic requests based on the user's selected starting location, transportation type and maximum travel time. It responds with customized routing information for the underlying transportation network.
     \end{description}
     The front-end contains the mapping and rendering stages. A glTF reader will request and load the network geometries. Based on the user inputs, routing data will be queried. All responses are mapped, cached and rendered in the client.\par
-    As described in section {sec:conc:back}, the back-end is not subject to further technical specification in this document. Therefore, the following applications strongly focus on the front-end implementation and visualization.\par
+    As described in section \ref{sec:conct:preli:backe}, the back-end is not subject to further technical specification in this document. Therefore, the following applications strongly focus on the front-end implementation and visualization.\par
   \section{Iterative development process}
+    \label{sec:imple:cycle}
     To allow fast evaluation of the results gained during the development phases, an evolutionary development process is applied to reach different proof-of-concept stages. The iterative process allows go through development, testing and evaluation phases quickly [?] and move ...\par
-    The back-end specified in section {sec:conc:back} is provided and maintained by Motion Intelligence GmbH. ...\par
+    The back-end specified in section \ref{sec:conct:preli:backe} is provided and maintained by Motion Intelligence GmbH. ...\par
     % api communication with motion intelligence gmbh
     The implementation is solved by an evolutionary prototyping process. The presented prototypes are therefore not comparable but rather help to outline issues with existing solutions and pave the way to the -- for this paper -- final solution utilizing glTF geometry tiles. Four prototypes are implemented:
     \begin{description}
@@ -53,8 +56,10 @@
     Prototype \#3 is utilizing view-port-based server requests on GeoJSON data. This approach is consuming too much bandwidth and server-capacities. Therefore, it is discarded in favor of a tile-based approach developed in the next step.\par
     Prototype \#4 is implementing a geometry tile service explicitly utilizing the glTF data exchange format. See section ??? for more details.
   \section{Proof-of-concept applications}
+    \label{sec:imple:applc}
     In the following subsections five proof-of-concept applications will be presented.\par
     \subsection{Leaflet native network rendering}
+      \label{sec:imple:applc:nativ}
       A reference implementation in Leaflet is provided (figure {fig:poc:one}). It does not utilize hardware acceleration or WebGL rendering. It processes the vector data in GeoJSON format using the native Leaflet JavaScript class \texttt{L.GeoJson}. Therefore, both the mapping and rendering will be performed on CPU.\par
       \begin{figure}[h]
         \centering
@@ -62,9 +67,10 @@
         \caption{An accessibility map rendered native with Leaflet vector tiles in GeoJSON format. The selected transportation mode is walking and the displayed travel time is 10 minutes.}
         \label{fig:poc:one}
       \end{figure}
-      The rendered street network for 600 seconds travel time in walking mode contains 13,829 features (25,821 vertices). It shows a major performance bottleneck for both the mapping and the rendering stage. It wont be evaluated any further and is only used for the performance comparison in section {sec:comp} as native Leaflet reference without WebGL hardware acceleration.
+      The rendered street network for 600 seconds travel time in walking mode contains 13,829 features (25,821 vertices). It shows a major performance bottleneck for both the mapping and the rendering stage. It wont be evaluated any further and is only used for the performance comparison in section \ref{sec:evalu:pcomp} as native Leaflet reference without WebGL hardware acceleration.
 
     \subsection{Leaflet WebGL canvas overlay}
+      \label{sec:imple:applc:canvs}
       Leaflet provides a 2D \texttt{L.map()} canvas on a \texttt{<div id="map" />} HTML DOM element. This can be used for basic web mapping tools like raster base tiles or simple vector items. The extended class \texttt{L.canvasOverlay()} provides Leaflet with a 3D overlay which handles redrawing of the canvas and therefore allows basic WebGL context integration (figure {fig:overlay}).
 
 %%%      \begin{figure}[h]
@@ -88,6 +94,7 @@
       \lstinputlisting[float,caption={Leaflet canvas overlay},label={lst:poc:overlay}]{./lst/leaflet-canvas-overlay.js}
       While Leaflet provides a map canvas on a HTML DOM element (e.g., \texttt{<div id='map'>}) for two dimensional vector and raster contexts, Figure {fig:poc:overlay} shows how the \texttt{L.CanvasOverlay} class provides an additional context. The overlay can be used for custom HTML5 elements and handles view port coordinate alignment along with the underlying map. Furthermore, it can be utilized to bind a three dimensional context like WebGL and to handle the redrawing of the scene each time the map view changes (Listing {lst:poc:overlay}).\par
     \subsection{WebGL with tiled vector data}
+      \label{sec:imple:applc:vectr}
       Two.
       \begin{figure}[h]
         \centering
@@ -110,6 +117,7 @@
       from geodata representation to GPU array-buffers and (2) coordinate transformations
       for rendering~(cf.~Sec.~{WD:SubSec:PerformanceEvaluation}). \par
     \subsection{WebGL with tiled buffer data}
+      \label{sec:imple:applc:buffr}
       Table {tab:tilopts} highlights the advantages of geometry tiling. The layout stays dynamic and can be adjusted at runtime by custom user inputs similar to vector tiling approaches.\par
       The data processing is moved from client-side to server-side similar to raster tiling approaches. The result is high runtime preformance with low latencies and the resulting geometries can be cached client-side.\par
       The rendering happens on dedicated graphic devices and ensures outstanding performance even for complex geodata sets.
@@ -191,4 +199,5 @@
       %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
     \subsection{WebGL with tiled glTF data}
+      \label{sec:imple:applc:tgltf}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%

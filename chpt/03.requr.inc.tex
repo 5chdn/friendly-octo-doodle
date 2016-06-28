@@ -3,11 +3,16 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \cleardoublepage              %%% REQUIREMENTS                               %%%
 \chapter{Requirements for this approach}
+  \label{chap:requr}
   \section{Network-based visualization}
+    \label{sec:requr:netwr}
   \section{Compact data representation}
+    \label{sec:requr:data}
   \section{Client-side mapping and rendering}
+    \label{sec:requr:clien}
     % user foo interaction, dynamic bar
   \section{Web-based provision}
+    \label{sec:requr:websd}
     This project focuses on the JavaScript webmapping framework \textit{Leaflet-JS} [??]. Better alternatives with a more advanced WebGL-integration are available (e.g. \textit{OpenLayers 3}) but a high compatibility with the existing \textit{Route360-JS} API developed by Motion Intelligence GmbH [??] is a requirement for this project. Therefore, Leaflet will be used.\par
     There is no native support for WebGL in Leaflet, yet\footnote{While writing this paper, a spanish software engineer, Iván Sánchez Ortega, started working on a Leaflet.GL plugin architecture [??] which was not taken into consideration as it is still experimental and was not available when this project implementation was started.}. Along with this implementation, a handful of Leaflet plugins will be developed which support a future WebGL integration [??][??] (see section {sec:tile}).\par
     % compare expert knowledge w/ GIS systems
