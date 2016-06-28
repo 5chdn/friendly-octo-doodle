@@ -2,8 +2,8 @@
 \documentclass[english]{cgsthesis}
 \usepackage[utf8]{inputenc}
 
-% Bibtex
-\usepackage[defernumbers=true,natbib=true,backend=bibtex,style=numeric]{biblatex}
+% Bibtex %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\usepackage[defernumbers=true,natbib=true,bibencoding=ascii,backend=bibtex,style=numeric]{biblatex}
 \DeclareBibliographyCategory{cited}
 \DeclareBibliographyCategory{supplementary}
 \AtEveryCitekey{\addtocategory{cited}{\thefield{entrykey}}}
@@ -13,9 +13,9 @@
 }
 \addbibresource{schoedon.bib}
 
-% Code listings
+% Code listings %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \usepackage{listings}
-\lstloadlanguages{C++}
+\lstloadlanguages{C++, HTML, sh}
 \lstdefinelanguage{JavaScript}{
   keywords={typeof, new, true, false, catch,%
     function, return, null, catch, switch, var,%
@@ -192,14 +192,14 @@ Accessibility is a fundamental aspect in transportation, routing, and spare-time
 
 \mainmatter
 
-\include{chpt/01.intro.inc.tex}
-\include{chpt/02.overv.inc.tex}
-\include{chpt/03.requr.inc.tex}
-\include{chpt/04.conct.inc.tex}
-\include{chpt/05.imple.inc.tex}
-\include{chpt/06.evalu.inc.tex}
-\include{chpt/07.discu.inc.tex}
-\include{chpt/08.concl.inc.tex}
+\include{chpt/01.intro.inc}
+\include{chpt/02.overv.inc}
+\include{chpt/03.requr.inc}
+\include{chpt/04.conct.inc}
+\include{chpt/05.imple.inc}
+\include{chpt/06.evalu.inc}
+\include{chpt/07.discu.inc}
+\include{chpt/08.concl.inc}
 
 \pfinal
 \printbibliography[title={References},category=cited,heading=bibintoc]
@@ -210,8 +210,7 @@ Accessibility is a fundamental aspect in transportation, routing, and spare-time
 
 \pfinal
 \nocite{*}
-\printbibliography[title={Further reading},notcategory=cited,resetnumbers=true,heading=bibintoc]
-%\printbibliography[title={Uncited references},notcategory=cited,resetnumbers=true,heading=bibintoc]
+\printbibliography[title={Uncited references},notcategory=cited,resetnumbers=true,heading=bibintoc]
 %~ \vfill
 %\lowinlinetodo{Remove the uncited references from document.}
 
