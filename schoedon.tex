@@ -53,6 +53,12 @@
 \renewcommand{\lstlistlistingname}{List of Listings}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
+% Misc %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\usepackage{enumerate}
+\usepackage[toc,acronyms,nomain]{glossaries}
+\makeglossaries
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
 
 % Thesis development %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \usepackage{cgsnotes}
@@ -96,7 +102,6 @@
 \frontmatter
 \maketitle
 
-
 % Abstract %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \cleardoublepage
 \addchap{Abstract}
@@ -133,6 +138,21 @@ the superior performance of the approach over alternative implementations.
 
 \cleardoublepage
 \lstlistoflistings
+
+\cleardoublepage
+\printglossary[type=acronym,title=List of Acronyms,toctitle=List of Acronyms]
+\newacronym{gis}{GIS}{Geographic Information System}
+\newacronym{gl}{GL}{Graphics Library}
+\newacronym{gltf}{glTF}{Graphics Library Transmission Format}
+\newacronym{gml}{GML}{Geographic Markup Language}
+\newacronym{gpu}{GPU}{Graphics Processing Unit}
+\newacronym{jpg}{JPEG}{Joint Photographic Experts Group}
+\newacronym{js}{JS}{JavaScript Language}
+\newacronym{json}{JSON}{JavaScript Object Notation}
+\newacronym{png}{PNG}{Portable Network Graphics}
+\newacronym{pc}{PC}{Personal Computer}
+\newacronym{osm}{OSM}{OpenStreetMap}
+\newacronym{webgl}{WebGL}{Web Graphics Library}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 
@@ -173,7 +193,7 @@ the superior performance of the approach over alternative implementations.
 
 
 % Appendix %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\appendix
+\include{chpt/99.apndx.inc}
 \backmatter
 \include{statutorydeclaration}
 \end{document}
