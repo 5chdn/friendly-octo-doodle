@@ -6,21 +6,21 @@
   \label{chap:imple}
   A proof-of-concept implementation is provided along with this thesis. This
   chapter covers the Leaflet-JS integration details. It is targeted to work with
-  web applications and mobile devices. In the following subsections the
-  challenges with the web-based provision are examined. The architecture will be
+  web applications and mobile devices. The following subsections examine the
+  challenges with the web-based provision. The architecture will be
   explained and the resulting applications will be presented.\par
 
   \section{Architecture overview}
     \label{sec:imple:archi}
     The implementation requires a client/server architecture which offers both,
     a tiling service supplying the pre-calculated glTF tiles and a routing
-    service supplying travel times on-request at runtime (figure
+    service supplying travel times upon request at runtime (figure
     \ref{fig:imple:archi}).\par
 
     \begin{figure}[h]
       \centering
       \includegraphics[width=\linewidth]{./img/conceptual-overview-bw.pdf}
-      \caption{Architecture of preprocessing back-end and visualization client.}
+      \caption{Architecture of pre-processing back-end and visualization client.}
       \label{fig:imple:archi}
     \end{figure}
 
@@ -48,21 +48,19 @@
     As described in section \ref{sec:conct:preli:backe}, the back-end is not
     subject to further technical specification in this document. Therefore, the
     following applications strongly focus on the front-end implementation and
-    visualization.\par
+    the visualization pipeline.\par
 
   \section{Iterative development process}
     \label{sec:imple:cycle}
-    The implementation is solved by an evolutionary prototyping process.\par
-
-    To allow a fast evaluation of the results gained during the different stages
-    of development, an evolutionary development process is used. It leads to
-    multiple proof-of-concept versions which can be analyzed afterwards.\par
+    The implementation is realized using an evolutionary prototyping process
+    model which leads to multiple proof-of-concept versions to be evaluated and
+    discussed afterwards.\par
 
     A working back-end -- as specified in section \ref{sec:conct:preli:backe} --
-    provides the prototypes with real-time data at run-time. It is provided and
-    maintained by Motion Intelligence GmbH. By utilizing and extending the
-    existing Route360-JS API [??], compatibility and potential future
-    integrations are maintained.\par
+    provides the prototypes with real-time data at run-time. It is
+    maintained by Motion Intelligence GmbH. By integrating this work in the
+    existing open source API Route360-JS [??], compatibility and potential
+    future applications are ensured.\par
 
   \section{Proof-of-concept applications}
     \label{sec:imple:applc}
@@ -73,15 +71,16 @@
       \item[PoC\#1 Leaflet-JS with CPU native lines vector
         tiling] This implementation is not interesting for
         this work as it neither uses WebGL nor glTF and is only implemented to
-        have a classic approach available. In addition, the performance of the
-        first prototype is very low, even for small accessibility map
+        have a classic approach available for comparison. In addition, the
+        performance of the
+        first prototype is very weak, even for small accessibility map
         visualizations (below 10 minutes travel time complexity in a city
         center, compare section \ref{sec:imple:applc:nativ}).
       \item[PoC\#2 Leaflet-JS with GPU-enabled canvas overlay and vector tiling]
         This prototype is interesting both for the successful
         WebGL integration in Leaflet-JS and the issues arising with GeoJSON
-        post-processing. See section \ref{sec:imple:applc:vectr} for more
-        details.
+        post-processing in the client. See section \ref{sec:imple:applc:vectr}
+        for more details.
       \item[PoC\#3 Leaflet-JS with GPU buffer tiling] This approach
         is implementing a GPU buffer tiling service explicitly utilizing the
         glTF data exchange format. See section \ref{sec:imple:applc:tgltf} for
@@ -93,8 +92,9 @@
       A reference implementation in Leaflet-JS is provided (figure
       \ref{fig:imple:applc:nativ}). It does not utilize hardware acceleration or
       WebGL rendering. It processes the vector data in GeoJSON format using the
-      native Leaflet-JS JavaScript class \texttt{L.GeoJson}. Therefore, both the
-      mapping and rendering will be performed on CPU.\par
+      native Leaflet-JS JavaScript class \texttt{L.GeoJson} as specified in the
+      documentation [??]. Both the mapping and rendering will be performed on
+      CPU.\par
 
       \begin{figure}[h]
         \centering
@@ -129,7 +129,9 @@
       \begin{figure}[h]
         \centering
         \includegraphics[width=0.7\linewidth]{./img/leaflet-canvas-overlay.pdf}
-        \caption{Leaflet-JS canvas overlay schematic: A 2D map canvas is provided by Leaflet, the overlay class allows the rendering of 3D contexts.}
+        \caption{Leaflet-JS canvas overlay schematic: A 2D map canvas is
+          provided by Leaflet, the overlay class allows the rendering of 3D
+          contexts.}
         \label{fig:imple:applc:overlay}
       \end{figure}
 
