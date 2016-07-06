@@ -4,8 +4,8 @@
 \cleardoublepage              %%% INTRODUCTION                               %%%
 \chapter{Introduction}
   \label{chap:intro}
-  This thesis proposes a new technique of web-based transportation network
-  visualization with the application of network-based accessibility maps.\par
+  This thesis proposes a new technique for web-based transportation network
+  visualizations within the application of network-based accessibility maps.\par
 
   \section{Motivation}
     \label{sec:intro:motiv}
@@ -16,7 +16,7 @@
     static, predefined display. Vector data can be rendered client-side
     using dynamic mappings and interactive stylization.\par
 
-    \begin{figure}[h]
+    \begin{figure}[htb]
       \centering
       \includegraphics[width=\linewidth]
         {./img/screenshot-teaser-7200s-publictransport.png}
@@ -31,17 +31,19 @@
 
   \section{Definitions}
     \label{sec:intro:def}
+
     Both the terms \textit{transportation networks} and \textit{accessibility
-    maps} are ambitious and will be defined for future usage in this
+    maps} are ambiguous and will be defined for future usage in this
     thesis.\par
 
     \begin{description}
-      \item[Transportation Network] is a routable geo-data graph representation.
-        It includes all path types from motorways to residential roads
-        including footways and cycleways [??]. It does not include railways or bus
-        guide-ways which are not accessible by private means of transport.
-      \item[Accessibility Maps] are a tool of spatial mobility analytics. They
-        allow single source shortest path (\acrshort{sssp}) display of
+      \item[Transportation Network] is a routable graph representation of a
+        geographic dataset.
+        It includes all types of roads from motorways to residential paths
+        including foot-ways and cycle-ways [??]. It does not include railways or
+        bus guide-ways which are not accessible by private means of transport.
+      \item[Accessibility Maps] are a tool for mobility analytics. They display
+        single source shortest path (\acrshort{sssp}) routing paths for selected
         geographic areas [??]. Accessibility can used be as a synonym for
         \textit{reachability} in this case. It's not related to services or
         environments for people who experience disabilities.
@@ -50,26 +52,38 @@
   \section{Problem statement}
     \label{sec:intro:probl}
 
-    % existing approaches / drawbacks
-      % creation requires generalization
-      % lacks precision wrt network
-      % does not scale for more detailed display
+    Figure \ref{fig:intro:r360d} shows an existing web service for accessibility
+    mapping. It encodes travel time intervals using separate polygons, which
+    must be computed and transferred to the browser. This kind of approach has
+    several drawbacks:\par
 
-    Rendering transportation networks in web-based applications remains a
-    performance critical task due to the complexity of the underlying geo-data.
-    An OpenStreetMap (\acrshort{osm}) graph dataset of the Berlin/Brandenburg
-    region as
-    of June 2016 contains around $2.4 \cdot 10^6$ edges spanned by
-    $2.9 \cdot 10^6$ vertices~\cite{STHD2016}. Using
-    classic approaches to render such a dataset in a web browser either
-    leaves users with a predefined, static mapping (raster data) or a notable
-    computation-intense rendering process (vector data).\par
+    \begin{enumerate}[\label=({D}1)]
+      \item It's creation requires generalization
+      \item It lacks precision with regard to the network.
+      \item It does not scale for a more detailed display.
+    \end{enumerate}
 
-    The two aforementioned techniques of mapping and rendering web maps are
-    widely established and have proven effective. But both approaches have
-    certain drawbacks.\par
+    \begin{figure}[htb]
+      \centering
+      \includegraphics[width=\linewidth]
+        {./img/screenshot-r360js-demo.png}
+      \caption{A generalized, polygon-based accessibility map visualization
+        by Motion Intelligence GmbH utilizing the Route360$^\circ$-\acrshort{js}
+        \acrshort{api} [??].}
+      \label{fig:intro:r360d}
+    \end{figure}
 
-%   Real-time rendering transportation networks as scenery for data visualization in web-based applications is a performance critical task depending on the geometric complexity of the network and associated travel times. For example, an OSM dataset of the Berlin region comprises approx. $9 \cdot 10^5$ edges (Oct.~2015). Using traditional visualization approaches using web browsers either faces users with a predefined, static filtering and mapping (raster data) or a notable computation-intense rendering process (vector data). These two fundamental approaches covering filtering, mapping, and rendering web-based maps are widely established and have proven to be effective, but exhibit drawbacks:
+    Real-time rendering transportation networks as scenery for data
+    visualization in web-based applications is a performance critical task
+    depending on the geometric complexity of the network and associated travel
+    times. For example, an OpenStreetMap (\acrshort{osm}) dataset of the Berlin
+    region comprises approximately $2.4 \cdot 10^6$ road segments spanned by
+    $2.9 \cdot 10^6$ vertices as of June 2016 [??]. Using traditional visualization
+    approaches using web browsers either faces users with a predefined, static
+    filtering and mapping (raster data) or a notable computation-intense
+    rendering process (vector data). These two fundamental approaches covering
+    filtering, mapping, and rendering web-based maps are widely established and
+    have proven to be effective, but exhibit drawbacks.\par
 
     Data transmitted in pre-rendered raster data formats (e.g., \acrshort{png},
     \acrshort{jpg}) does
@@ -90,7 +104,9 @@
     hardware-accelerated rendering (\acrshort{gpu}) but lack functionality for
     client-side vector data processing~\cite{Gaffuri2012}.\par
 
-%   Thus, both approach changes in filtering (e.g., selecting a travel time threshold) or mapping (e.g., color mapping, line styles etc.) would result in a complete data re-transmission, loading, and processing. To summarize, an interactive visualization technique for web-based accessibility maps should adhere to the following requirements and challenges: it should support a web-based, hardware-accelerated implementation using WebGL~\cite{Parisi2012}~(R1); a standardized and compact data representation that allows for decoupling network geometry from temporal data to reduce data transmission and updates~(R2); as well as enable interactive client-side filtering, mapping, and rendering for visual feedback~(R3).
+    Thus, both approach changes in filtering (e.g., selecting a travel time
+    threshold) or mapping (e.g., color mapping, line styles etc.) would result
+    in a complete data re-transmission, loading, and processing.\par
 
     Therefore, high detailed network analysis and visualization is often
     performed using Geographic Information Systems (\acrshort{gis}). Such
@@ -129,7 +145,10 @@
     \begin{enumerate}[\label=({C}1)]
       \item It presents a concept to decouple the visualization geometry and
         data items for interactive web-based accessibility maps based on
-        \acrshort{webgl}. %@TODO major C missing
+        \acrshort{webgl}.
+      \item It specifies a geographic tiling concept based on a binary
+        transmission format close to rendering requirements
+        utilizing the new standardized \acrshort{gltf}.
       \item It demonstrates the effectiveness of this approach by a
         comparative performance evaluation of different implementation
         variants.
