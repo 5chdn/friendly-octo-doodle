@@ -1,49 +1,258 @@
 %!TEX root = ../schoedon.tex
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\cleardoublepage              %%% OVERVIEW                                   %%%
+\cleardoublepage
 \chapter{Overview and related work}
   \label{chap:overv}
-  Related work comprises basically accessibility map visualization, web-based
-  visualization frameworks, and the rendering of transportation networks using
-  GPUs. Glander et al. present an accessibility map visualization technique
-  with a focus on polygon-based approaches~\cite{Glander2010}, and raster-based
-  distance transforms~\cite{Mueller2010} which both lack precision in display
-  offered by our approach. In~\cite{Yin2015}, a web-based system for visualization
-  of multi-modal accessibility for multiple
-  land-uses is presented. However, the visualization technique does not focus on the
-  specifics of transportation network representations. Altmaier et al. (2003) was
-  among the first to outline issues in web-based geovisualization
-  applications~\cite{Altmaier2003}. In~\cite{Brabec2007}, challenges, requirements,
-  and concepts of client-based browsing of spatial data on the World Wide Web are
-  discussed. The presented system is based on a Java-Applet and does not exploit
-  modern web technologies for rendering complex spatial data. Vaaraniemi et al. (2011)
-  as well as Trapp et al. (2015) develop and evaluate approaches for transport network
-  visualization utilizing modern graphics hardware \cite{Vaaraniemi2011,Trapp2015}.
-  However, the presented rendering techniques can currently not be implemented
-  using technologies for browser-based rendering and do no cover specifics of
-  data representation and formats.\par
+
+  \section{Accessibility analytics and mapping techniques}
+    \label{sec:overv:accss}
+
+    % Paper
+    %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+    % 1881 Galton et al.       ********
+    % 1978 Muller
+    % 1981 Sugiura
+    % 1986 Hall
+    % 1989 Cauvin et al.
+    % 1993 Spierkermann et al.
+    % 1994 Spierkermann et al.
+    % 1996 Gutierrez et al.
+    % 1998 Fritz et al.
+    % 1999 Spiekermann
+    % 2000 O'Sullivan et al.
+    % 2001 Ran (Google Patent)
+    % 2002 Lovett et al.
+    % 2003 Dailey et al.
+    % 2005 Auxhausen
+    % 2005 Chronomap (Brochure)
+    % 2005 Karlin
+    % 2005 McLaren
+    % 2005 Travel Time Tube Map (Project)
+    % 2006 Cheng et al.
+    % 2006 Kasper et al.
+    % 2006 Lightfoot
+    % 2006 Pfoster et al.
+    % 2006 Rüegg
+    % 2006 Street              ********
+    % 2007 Innerebener et al.
+    % 2007 Irving
+    % 2007 Nies et al.
+    % 2008 Bauer et al.
+    % 2008 Cheng et al.
+    % 2008 Mapumental (Project)
+    % 2008 Uchida et al.
+    % 2009 Uchida et al.
+    % 2010 Antrim et al.
+    % 2010 Campenhout          ********
+    % 2010 Glander et al.      ********
+    % 2010 Lei et al.
+    % 2010 Marciuska et al.
+    % 2010 Müller et al.       ********
+    % 2011 Birchler
+    % 2011 Gemmel
+    % 2011 Gamper et al.
+    % 2011 Isochrone.ch (Project)
+    % 2011 Li et al.
+    % 2011 Söderström
+    % 2012 Byrd
+    % 2012 Gamper et al.
+    % 2012 Hollburg et al.     ********
+    % 2012 Mapnificent (Project)
+    % 2012 Mertens
+    % 2012 TripTropNYC (Porject)
+    % 2012 Time Maps (Project)
+    % 2013 Innerebner
+    % 2013 Innerebner et al.
+    % 2013 Tran et al.
+    % 2014 Gortana et al.      ********
+    % 2014 Hollburg            ********
+    % 2014 Isoscope (Project)
+    % 2014 Krismer et al.
+    % 2014 Voll
+    % 2015 TravelTimePlatform (Project)
+    % 2016 Schoedon et al.     ********
+
+    % Projects
+    %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+    % 2005 Chronomap: MapInfo IT
+    % Demo-Film: Erzeugung von Zeit-Isochronen mit ChronoMap für MapInfo Professional.
+    % http://www.datagis.com/ChronoMap/ChronoMap.html
+    % http://www.datagis.com/geodaten-geomarketing-geoconsulting.php?nid=30&kid=3
+    %
+    % Demo-ChronoMap-MapInfo-IT.avi
+    % https://www.youtube.com/watch?v=QjRW55z7SHA
+    %
+    % ChronoMap 2005 Brochure
+    %
+    % http://www.theexmiles.com/programmingtools/chronomapdeveloperkit.html
+
+    % Projects
+    %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+    % 2005 Carden: Travel Time Tube Map
+    % T. Carden: Travel Time Tube Map (2005)
+    % Tom Carden. Travel Time Tube Map. http://www.tom-carden.co.uk/p5/tube_map_
+    % travel_times/applet/.
+    % http://www.tom-carden.co.uk/2006/02/21/tube-travel-contours
+    % http://www.tom-carden.co.uk/p5/tube_map_travel_times/applet/
+    % Tom Carden. Tube Travel Contours, 2006. URL http://www.tom-
+    % carden.co.uk/2006/02/21/tube-travel-contours/. Letzter Zugriff 31.1.2010.
+
+    % Projects
+    %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+    % 2009 FreeMapTools: How far can I travel
+    % https://www.freemaptools.com/how-far-can-i-travel.htm
+
+    % Projects
+    %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+    % 2008 Irving, Lightfoot, et al.: Mapumental
+    % [CITATION] Travel-time Maps and their Uses
+    % C Lightfoot, T Steinberg - 2006 - … Society, funded by UK Department of …
+    %
+    % Travel-time Maps and their Uses, Chris Lightfoot and Tom Steinberg,
+    % http://www.mysociety.org/2006/travel-time-maps/ [Accessed 10 June 06]
+    %
+    % @misc{lightfoot2006travel,
+    %   title={Travel-time Maps and their Uses},
+    %   author={Lightfoot, Chris and Steinberg, Tom},
+    %   year={2006},
+    %   publisher={My Society, funded by UK Department of Transport (www. mysociety. org/2006/travel-time-maps/index. php)}
+    % }
+    %
+    % https://www.mysociety.org/2006/03/04/travel-time-maps-and-their-uses/
+    % https://www.mysociety.org/2007/03/05/more-travel-time-maps-and-their-uses/
+    % https://mapumental.com/ Lightfoot et al
+    %
+    % Parkes, Duncan; Somerville, Matthew; Broadbent, Jedidiah; Glushkova, Kristina; Lightfoot, Chris; Irving, Francis (2013): Mapumental Property. London: myScociety. Online verfügbar unter http://property.mapumental.com/, zuletzt geprüft am 27.12.2013.
+    %
+    % Chris Lightfoot und Francis Irving. Travel-Time Maps, 2007. URL
+    % http://www.mysociety.org/2007/more-travel-maps/. Letzter Zugriff: 31.1.2010.
+
+    %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+    % 2011 Birchler: Isochrone.ch
+    % Birchler, Marco (2013): isochrone.ch. Rapperswill: Hochschule für Technik Rapperswill. Online verfügbar unter http://www.isochrone.ch/, zuletzt geprüft am 27.12.2013.
+    % https://www.ifs.hsr.ch/uploads/tx_icscrm/I_M.Birchler_H_2012.pdf
+    % http://www.isochrone.ch/
+
+    %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+    % 2012 Meertens: Time Maps
+    % http://www.timemaps.nl/
+    % http://app.timemaps.nl/map vincent meertens
+    % vincent meertens: Travel time maps of urban areas in the Netherlands
+    % http://www.envplan.com/epa/fulltext/a44/a4590.pdf
+
+    %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+    % 2012 Soma: TripTropNYC
+    % Soma, Jonathan (2012): TripTropNYC
+    % http://www.triptropnyc.com/
+
+    %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+    % 2012 Wehrmeyer: Mapnificent
+    % http://www.mapnificent.net/berlin/ stefan wehrmeyer
+    % https://stefanwehrmeyer.com/projects/radnificent/ stefan wehrmeyer
+    % https://stefanwehrmeyer.com/blog/2012/01/10/radnificent/ stefan wehrmeyer
+    %
+    % Wehrmeyer, Stefan (2013): Mapnificient. Bonn. Online verfügbar unter http://www.mapnificent.net/, zuletzt geprüft am 27.12.2013.
+    %
+    % @misc{wehrmeyer2012mapnificent,
+    %   title={Mapnificent-Dynamic Public Transport Travel Time Maps},
+    %   author={Wehrmeyer, S},
+    %   year={2012},
+    %   publisher={Retrieved}
+    % }
+
+    %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+    % 2013 Melendez et al.: Transit Time NYC
+    % http://project.wnyc.org/transit-time/
+    % WNYC
+    % Transit Time NYC
+    % http://project.wnyc.org/transit-time/
+    % Steven Melendez, John Keefe and Louise Ma / WNYC Data News Team. Follow us @datanews, email us here.
+
+    %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+    % 2014 Gortana et al.: Isoscope
+    % http://isoscope.fh-potsdam.de/ marian dörk ?
+    % http://isoscope.martinvonlupin.de/
+    % http://www.flaviogortana.com/good/at/stuff/like/isoscope
+    % https://uclab.fh-potsdam.de/projects/isoscope/
+    %
+    % Isoscope Mapping the time-varying extent of urban mobility
+    %
+    % A project 2014 by:
+    % Flavio Gortana, Sebastian Kaim and Martin von Lupin supervised by Till Nagel during the class "Urbane Ebenen: Mobilität" at the University of Applied Sciences Potsdam
+    % Gortana et al. (2014): Isoscope - Visualizing temporal mobility variance with isochrone maps
+
+    %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+    % 2015 iGeolise: TravelTimePlatform
+    % http://www.igeolise.com/
+    % http://www.traveltimeplatform.com/
+    % https://data.gov.uk/apps/traveltime-platform
+    % http://www.igeolise.com/2016/06/isochrone-map-driving-travel-time-geodistance/
+
+  \section{Geographic visualizations of transportation networks}
+    \label{sec:overv:geovs}
+
+  \section{Web-based mapping components and services}
+    \label{sec:overv:webmp}
+
+  \section{Web-based rendering technologies}
+    \label{sec:overv:webrn}
+
+
+
+%%%%%%%%\chapter{Overview and related work}
+%%%%%%%%  \label{chap:overv}
+
+  %  Related work comprises basically accessibility map visualization, web-based
+  %  visualization frameworks, and the rendering of transportation networks using
+  %  GPUs. Glander et al. present an accessibility map visualization technique
+  %  with a focus on polygon-based approaches~\cite{Glander2010}, and raster-based
+  %  distance transforms~\cite{Mueller2010} which both lack precision in display
+  %  offered by our approach. In~\cite{Yin2015}, a web-based system for visualization
+  %  of multi-modal accessibility for multiple
+  %  land-uses is presented. However, the visualization technique does not focus on the
+  %  specifics of transportation network representations. Altmaier et al. (2003) was
+  %  among the first to outline issues in web-based geovisualization
+  %  applications~\cite{Altmaier2003}. In~\cite{Brabec2007}, challenges, requirements,
+  %  and concepts of client-based browsing of spatial data on the World Wide Web are
+  %  discussed. The presented system is based on a Java-Applet and does not exploit
+  %  modern web technologies for rendering complex spatial data. Vaaraniemi et al. (2011)
+  %  as well as Trapp et al. (2015) develop and evaluate approaches for transport network
+  %  visualization utilizing modern graphics hardware \cite{Vaaraniemi2011,Trapp2015}.
+  %  However, the presented rendering techniques can currently not be implemented
+  %  using technologies for browser-based rendering and do no cover specifics of
+  %  data representation and formats.\par
+
   % one way of communicating mobility information such as travel times are two dimensional maps
   % accessibility and mobility becomes a central topic in a growing number of fields
   % there are strong demands for corresponding web mapping components
   % based on massive geodata sets, such as osm
-  \section{Accessibility analytics and mapping techniques}
-    \label{sec:overv:accss}
-    A general motivation on web-based accessibility map applications in the context of geospatial analytics offers Hollburg et al. (2012) \cite{hollburghier}.\par
-    Glander et al. (2010) researches on visualization of accessibility maps with focus on polygon-based approaches \cite{Glander2010}.\par
+
+%%%%%%%%  \section{Accessibility analytics and mapping techniques}
+%%%%%%%%    \label{sec:overv:accss}
+
+%    A general motivation on web-based accessibility map applications in the context of geospatial analytics offers Hollburg et al. (2012) \cite{hollburghier}.\par
+
+%    Glander et al. (2010) researches on visualization of accessibility maps with focus on polygon-based approaches \cite{Glander2010}.\par
+
     % isochronic passage chart (1881)
     % shortest path problem classes
     % Single pair shortest path (A to B)
     % Single source shortest path (A to N)
     % All pairs shortest path (N to M)
-  \section{Geographic visualizations of transportation networks}
-    \label{sec:overv:geovs}
-    Vaaraniemi et al. (2011) as well as Trapp et al. (2015) develop and evaluate solutions for transport network visualization utilizing modern computer graphics \cite{Vaaraniemi2011}\cite{Trapp2015}.\par
-  \section{Web-based mapping components and services}
-    \label{sec:overv:webmp}
-    Altmaier et al. (2003) was among the first to outline issues in web-based geovisualization applications \cite{Altmaier2003}. Klimke et al. (2011) proposed a camera path specification for geovisualization services on the web and mobile devices \cite{klimke2013service}.\par
-  \section{Web-based rendering technologies}
-    \label{sec:overv:webrn}
-    Both Coughlin (2013) and Trevett (2013) deliver outstanding motivations on why we need a standardized data format close to hardware devices for 3D applications on the web \cite{Coughlin2014}\cite{Trevett2012}.\par
+
+%%%%%%%%  \section{Geographic visualizations of transportation networks}
+%%%%%%%%    \label{sec:overv:geovs}
+
+    %Vaaraniemi et al. (2011) as well as Trapp et al. (2015) develop and evaluate solutions for transport network visualization utilizing modern computer graphics \cite{Vaaraniemi2011}\cite{Trapp2015}.\par
+
+%%%%%%%%  \section{Web-based mapping components and services}
+%%%%%%%%    \label{sec:overv:webmp}
+
+    %Altmaier et al. (2003) was among the first to outline issues in web-based geovisualization applications \cite{Altmaier2003}. Klimke et al. (2011) proposed a camera path specification for geovisualization services on the web and mobile devices \cite{klimke2013service}.\par
+
+%%%%%%%%  \section{Web-based rendering technologies}
+%%%%%%%%    \label{sec:overv:webrn}
+
+    %Both Coughlin (2013) and Trevett (2013) deliver outstanding motivations on why we need a standardized data format close to hardware devices for 3D applications on the web \cite{Coughlin2014}\cite{Trevett2012}.\par
+
     % raster, java, webgl
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
