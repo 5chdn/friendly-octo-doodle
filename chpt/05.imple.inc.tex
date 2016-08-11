@@ -17,7 +17,7 @@
     service supplying travel times upon request at runtime (figure
     \ref{fig:imple:archi}).\par
 
-    \begin{figure}[h]
+    \begin{figure}[htb]
       \centering
       \includegraphics[width=\linewidth]{./img/conceptual-overview-bw.pdf}
       \caption{Architecture of pre-processing back-end and visualization client.}
@@ -96,7 +96,7 @@
       documentation [??]. Both the mapping and rendering will be performed on
       CPU.\par
 
-      \begin{figure}[h]
+      \begin{figure}[htb]
         \centering
         \includegraphics
           [width=0.7\linewidth]
@@ -126,7 +126,7 @@
 
       % https://blog.sumbera.com/2014/04/20/leaflet-canvas/
 
-      \begin{figure}[h]
+      \begin{figure}[htb]
         \centering
         \includegraphics[width=0.7\linewidth]{./img/leaflet-canvas-overlay.pdf}
         \caption{Leaflet-JS canvas overlay schematic: A 2D map canvas is
@@ -150,7 +150,7 @@
       The Leaflet-JS web-mapping framework does not offer any WebGL support, yet. Sumbrera [??] published a Leaflet-JS canvas overlay class which provides a generic overlay over the map canvas and handles view-port coordinates and drawing events.\par
       \lstinputlisting[float,caption={Leaflet-JS canvas overlay},label={lst:poc:overlay}]{./lst/leaflet-canvas-overlay.js}
       While Leaflet-JS provides a map canvas on a HTML DOM element (e.g., \texttt{<div id='map'>}) for two dimensional vector and raster contexts, Figure {fig:poc:overlay} shows how the \texttt{L.CanvasOverlay} class provides an additional context. The overlay can be used for custom HTML5 elements and handles view port coordinate alignment along with the underlying map. Furthermore, it can be utilized to bind a three dimensional context like WebGL and to handle the redrawing of the scene each time the map view changes (Listing {lst:poc:overlay}).\par
-      \begin{figure}[h]
+      \begin{figure}[htb]
         \centering
         \includegraphics[width=0.7\linewidth]{./img/screenshot-poc2-600s-vector.png}
         \caption{An accessibility map rendered with WebGL on a Leaflet-JS canvas overlay utilizing vector tiles in GeoJSON format. The selected transportation mode is walking and the displayed travel time is 10 minutes.}
@@ -189,7 +189,7 @@
 %%%      \end{table}
       Figure {fig:geotile} shows a screenshot of a modified version of the 4th prototype. It displays the geometry tile \texttt{[2200,1343]} at zoom level 12 rendered with WebGL using random colours.
 
-%%%      \begin{figure}[h]
+%%%      \begin{figure}[htb]
 %%%        \centering
 %%%        \includegraphics[width=0.475\textwidth]{resources/geometry-tile.png}
 %%%        \caption{Geometry tile rendered with WebGL.}
@@ -202,7 +202,7 @@
       \end{itemize}
       On each load event of a tile, Leaflet-JS will request the geometry (vertices and indices) from the tiling server and the travel times (colours) from the routing server. These three arrays are recieved in glTF format. They are used to create \texttt{L.TileBuffer} objects (figure {fig:tbuff}).\par
 
-%%      \begin{figure}[h]
+%%      \begin{figure}[htb]
 %%        \centering
 %%        \includegraphics[width=0.3\textwidth]{resources/classes.pdf}
 %%        \caption{Two Leaflet-JS plugins for geometry tiling.}
