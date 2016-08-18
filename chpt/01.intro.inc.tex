@@ -1,6 +1,5 @@
 %!TEX root = ../schoedon.tex
 
-
 \cleardoublepage
 \chapter{Introduction}
   \label{chap:intro}
@@ -37,12 +36,12 @@
     thesis.\par
 
     \begin{description}
-      \item[Transportation Network] is a routable graph representation of a
-        geographic dataset.
+      \item[Transportation Network] is a multimodal, routable graph
+        representation of a geographic dataset.
         It includes all types of roads from motorways to residential paths
         including foot-ways and cycle-ways [??]. It does not include railways or
         bus guide-ways which are not accessible by private means of transport.
-      \item[Accessibility Maps] are a tool for mobility analytics. They display
+      \item[Accessibility Maps] are tools for mobility analytics. They display
         single source shortest path (\acrshort{sssp}) routing for selected
         geographic areas [??]. Accessibility can used be as a synonym for
         \textit{reachability} in this case. It's not related to services or
@@ -63,9 +62,9 @@
     several drawbacks:\par
 
     \begin{enumerate}[\label=({D}1)]
-      \item It's creation requires generalization.
-      \item It lacks precision with regard to the network.
-      \item It does not scale for a more detailed display.
+      \item \label{enu:drawb:d1} It's creation requires generalization.
+      \item \label{enu:drawb:d2} It lacks precision with regard to the network.
+      \item \label{enu:drawb:d3} It does not scale for a more detailed display.
     \end{enumerate}
 
     \begin{figure}[htb]
@@ -83,16 +82,15 @@
     depending on the geometric complexity of the network and associated travel
     times. For example, an OpenStreetMap (\acrshort{osm}) dataset of the Berlin
     region comprises approximately $2.4 \cdot 10^6$ road segments spanned by
-    $2.9 \cdot 10^6$ vertices as of June 2016 [??]. Using traditional
-    visualization
-    approaches using web browsers either faces users with a predefined, static
+    $2.9 \cdot 10^6$ vertices as of June 2016 [??]. Traditional visualization
+    approaches using web browsers either face users with a predefined, static
     filtering and mapping (raster data) or a notable computation-intense
     rendering process (vector data). These two fundamental approaches covering
     filtering, mapping, and rendering web-based maps are widely established and
-    have proven to be effective, but exhibit drawbacks.\par
+    have proven to be effective, but exhibit additional drawbacks.\par
 
     Data transmitted in pre-rendered raster data formats (e.g., \acrshort{png},
-    \acrshort{jpg}) does
+    \acrshort{jpg}) do
     not require any client-side processing prior to rendering, can be compressed
     as well as cached~\cite{ESRI2006}, and is used by major web-mapping services
     such as Google or Bing maps [??]. However, one major disadvantage is the
@@ -115,11 +113,11 @@
     in a complete data re-transmission, loading, and processing.\par
 
     Therefore, high detailed network analysis and visualization is often
-    performed using Geographic Information Systems (\acrshort{gis}). Such
+    performed using Geographic Information Systems (\acrshort{gis}) [??]. Such
     systems
     exploit the computation power of desktop workstations but posses limited
     applicability to everyday life, due to data availability and access, as well
-    as expert domain knowledge required by a user.\par
+    as expert domain knowledge required by a user [??].\par
 
   \section{Contributions}
     \label{sec:intro:contr}
@@ -149,15 +147,15 @@
     following contributions:\par
 
     \begin{enumerate}[\label=({C}1)]
-      \item It presents a concept to decouple the visualization geometry and
-        data items for interactive web-based accessibility maps based on
-        \acrshort{webgl}.
-      \item It specifies a geographic tiling concept based on a binary
-        transmission format close to rendering requirements
+      \item \label{enu:contr:c1} It presents a concept to decouple the
+        visualization geometry and data items for interactive web-based
+        accessibility maps based on \acrshort{webgl}.
+      \item \label{enu:contr:c2} It specifies a geographic tiling concept based
+        on a binary transmission format close to rendering requirements
         utilizing the new standardized \acrshort{gltf}.
-      \item It demonstrates the effectiveness of this approach by a
-        comparative performance evaluation of different implementation
-        variants.
+      \item \label{enu:contr:c3} It demonstrates the effectiveness of this
+        approach by a comparative performance evaluation of different
+        implementation variants.
     \end{enumerate} % @TODO compare innereber thesis 2013
 
     The technique presented in this thesis is a graphics library (\acrshort{gl})
@@ -165,12 +163,13 @@
     It shows various advantages:\par
 
     \begin{enumerate}[\label=({A}1)]
-      \item Its usage is not limited to stationary desktop systems but available
-        on a variety of devices (esp. mobile).
-      \item Potentially massive data sources are not required to be completely
-        transmitted, stored, or managed.
-      \item Implementations based on web-services and \acrshort{webgl} can be
-        easily integrated into existing systems and visualization frameworks.
+      \item \label{enu:advnt:a1} Its usage is not limited to stationary desktop
+        systems but available on a variety of devices (esp. mobile).
+      \item \label{enu:advnt:a2} Potentially massive data sources are not
+        required to be completely transmitted, stored, or managed.
+      \item \label{enu:advnt:a3} Implementations based on web-services and
+        \acrshort{webgl} can be easily integrated into existing systems and
+        visualization frameworks.
     \end{enumerate}
 
     In contrast to existing accessibility-map visualization concepts, this work
@@ -193,9 +192,28 @@
   \section{Publications}
     \label{sec:intro:publc}
     \begin{itemize}
-      \item \cite{STHD2016} \textsc{Schoedon, A; Trapp, M; Hollburg, H; Döllner, J (2016)}:\\ Interactive Web-based Visualization for Accessibility Mapping of Transportation Networks. In: Eurographics Conference on Visualization (\textsc{EuroVis}) 2016, The Eurographics Association, Groningen.
+      \item \textsc{Schoedon, A; Trapp, M; Hollburg, H; Döllner,
+        J (2016)}:\\ Interactive Web-based Visualization for Accessibility
+        Mapping of Transportation Networks. In: Eurographics Conference on
+        Visualization (\textsc{EuroVis}) 2016, The Eurographics Association,
+        Groningen \cite{STHD2016}.
     \end{itemize}
 
   \section{Thesis Organization}
     \label{sec:intro:organ}
-    Foo Too Doo Bar.
+    Chapter \ref{chap:overv} provides an overview on accessibility mapping and
+    mobility analytics, on geographic visualizations of transportation networks,
+    of web-based mapping components and services, and web-based rendering
+    technologies.\par
+
+    Chapter \ref{chap:requr} defines the requirements for this approach, while
+    chapter \ref{chap:conct} presents the concept and explains the design
+    decisions made.\par
+
+    Chapter \ref{chap:imple} outlines the different proof-of-concept
+    applications and explains the architecture and important implementation
+    details with respect to the requirements.\par
+
+    While chapter \ref{chap:evalu} shows application examples in coorperation
+    with Motion Intelligence GmbH and a performance evaluation, a discussion of
+    the results can be found in chapter \ref{chap:discu}.\par
