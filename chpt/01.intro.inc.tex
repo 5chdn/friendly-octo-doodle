@@ -4,7 +4,8 @@
 \chapter{Introduction}
   \label{chap:intro}
   This thesis proposes a new technique for web-based transportation network
-  visualizations within the application of network-based accessibility maps.\par
+  visualizations within the focus application of network-based accessibility
+  maps.\par
 
   \section{Motivation}
     \label{sec:intro:motiv}
@@ -43,14 +44,18 @@
         bus guide-ways which are not accessible by private means of transport.
       \item[Accessibility Maps] are tools for mobility analytics. They display
         single source shortest path (\acrshort{sssp}) routing for selected
-        geographic areas [??]. Accessibility can used be as a synonym for
-        \textit{reachability} in this case. It's not related to services or
+        geographic areas \cite{krumke2009graphentheoretische}. The term goes
+        back to Hansen \cite{hansen1959accessibility} who defines accessibility
+        as key indicator for urban transportation systems.
+        Accessibility analysis is also used as a synonym
+        for \textit{reachability} analysis \cite{Innerebner2013} and the
+        resulting maps also match the term \textit{travel time maps}
+        \cite{van2010travel}. Yin et al. \cite{Yin2015} define the
+        term accessibility as combination of mobility and potential in this
+        context where mobility is the ability of movement and potential the size
+        of destination opportunities. However, it's not related to services or
         environments for people who experience disabilities.
 
-        % term accessibility Hansen (1959)
-        % reachability analysis in Innerebner (2013)
-        % travel time maps in Campenhout (2010)
-        % both Yin (2015)
 
     \end{description}
 
@@ -148,16 +153,27 @@
     following contributions:\par
 
     \begin{enumerate}[\label=({C}1)]
-      \item \label{enu:contr:c1} It presents a concept to decouple the
+
+      \item \label{enu:contr:c1} It provides a formal definition of a
+        web-service for visualizing unfiltered multi-modal spatial networks.
+        This includes the back-end \acrshort{api} specification, the
+        transmission format chosen and the client proof-of-concept
+        implementation.
+      \item \label{enu:contr:c2} It presents a concept to decouple the
         visualization geometry and data items for interactive web-based
         accessibility maps based on \acrshort{webgl}.
-      \item \label{enu:contr:c2} It specifies a geographic tiling concept based
+      \item \label{enu:contr:c3} It specifies a geographic tiling concept based
         on a binary transmission format close to rendering requirements
-        utilizing the new standardized \acrshort{gltf}.
-      \item \label{enu:contr:c3} It demonstrates the effectiveness of this
+        utilizing the new standardized \acrshort{gltf}. This reduces bandwidth
+        and client-side processing requirements to a minimum to enable dynamic
+        user interactions without any notable delays.
+      \item \label{enu:contr:c4} It demonstrates the effectiveness of this
         approach by a comparative performance evaluation of different
         implementation variants.
-    \end{enumerate} % @TODO compare innereber thesis 2013
+      \item \label{enu:contr:c5} It provides a web-based proof-of-concept
+        implementation to demonstrate the effectiveness and efficiency of this
+        approach.
+    \end{enumerate}
 
     The technique presented in this thesis is a graphics library (\acrshort{gl})
     based approach rather than classic vector- or raster-based provisions.
@@ -192,6 +208,10 @@
 
   \section{Publications}
     \label{sec:intro:publc}
+
+    Preliminary results presented in this thesis have been published in the
+    following conferences:
+
     \begin{itemize}
       \item \textsc{Schoedon, A; Trapp, M; Hollburg, H; Döllner,
         J (2016)}:\\ Interactive Web-based Visualization for Accessibility
@@ -203,9 +223,9 @@
   \section{Thesis Organization}
     \label{sec:intro:organ}
     Chapter \ref{chap:overv} provides an overview on accessibility mapping and
-    mobility analytics, on geographic visualizations of transportation networks,
-    of web-based mapping components and services, and web-based rendering
-    technologies.\par
+    mobility analytics with a context of existing applications and related work
+    on geographic visualizations of transportation networks, of web-based
+    mapping components and services, and web-based rendering technologies.\par
 
     Chapter \ref{chap:requr} defines the requirements for this approach, while
     chapter \ref{chap:conct} presents the concept and explains the design
@@ -215,6 +235,6 @@
     applications and explains the architecture and important implementation
     details with respect to the requirements.\par
 
-    While chapter \ref{chap:evalu} shows application examples in coorperation
-    with Motion Intelligence GmbH and a performance evaluation, a discussion of
+    Chapter \ref{chap:evalu} shows application examples in coorperation
+    with Motion Intelligence GmbH and a performance evaluation. A discussion of
     the results can be found in chapter \ref{chap:discu}.\par
