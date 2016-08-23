@@ -78,7 +78,7 @@
       2014 & Krismer et al. \cite{krismer2014incremental} & Incremental calculation of isochrones  & Publication  \\
       2014 & Voll \cite{vollerreichbarkeiten} & Accessibility analysis of the Alps  & Publication  \\
       2015 & TravelTimePlatform \cite{TravelTimePlatform} & Search and filter by time not distance  & Application  \\
-      2015 & Yin et al. \cite{yin2015understanding} & Web-based accessibility analysis and travel time displays  & Publication  \\
+      2015 & Yin et al. \cite{Yin2015} & Web-based accessibility analysis and travel time displays  & Publication  \\
       2016 & Schoedon et al. \cite{STHD2016} & Web-based visualization of transportation networks  & Publication  \\
     \end{tabular}
     \caption{Selected related work.}
@@ -88,24 +88,7 @@
   \section{Noteworthy publications and theses}
     \label{sec:overv:publc}
 
-    % pubs %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-    % galton first isochronic passage chart 1881
-    % distances that can be traversed in equal times
-    % offered merely as generalization
-    % primary object offering new principle
-    % isochronic maps easily constructed for continental travel or home excursions
-    %%% GRAPHIC ISO PSG CHART
-
-%    Back in 1881, Francis Galton created the Isochronic Passage Chart for the
-%    Royal Geographic Society (figure \ref{fig:overv:isopc}). It depicts the world
-%    as a thematic map with an overlay of colour-coded isochrones to show the
-%    distances that can be traveled in equal times. It uses the isochronic
-%    visualization as a rough generalization and suggests future areas of
-%    application might be \enquote{continental travel} or \enquote{home
-%    excursions} \cite{galton1881construction}.\par
-
-    \begin{figure}[t]
+    \begin{figure}[ht]
       \subcaptionbox{
         \label{fig:overv:isopc}
         The Isochronic Passage Chart by Francis Galton, 1881
@@ -123,6 +106,42 @@
         The Mapping of Travel Time in Edmonton, Alberta, 1978
         \cite{muller1978mapping}.}
       {\includegraphics[width=0.32\textwidth]{./img/overv-maptt.png}}
+      \label{fig:overv:1}
+    \end{figure}
+
+    In 1881 Francis Galton constructs the first isochronic map for the Royal
+    Geographic Society (figure \ref{fig:overv:isopc}). It depicts the
+    distances that can be traversed in equal times starting from London
+    \cite{galton1881construction}. His contribution offers merely an isochronic
+    generalization and suggests that future maps can be easily constructed for
+    more detailled continental travel or home excursion maps.\par
+
+    Among the first to define accessibility as indicator for urban
+    transportation systems is Walter G. Hansen (1959). He presents a method for
+    determining accessibility patterns within metropolian areas and defines
+    accessibility as the potential of opportunities for interaction serving
+    residents in urban areas \cite{hansen1959accessibility}.\par
+
+    % armstrong 1972
+    % transport costs play an important role
+    % here: economic evaluation of airports
+    % road travel times and weighting by importance for the application and population
+    %%% GRAPHIC FIG 3or4
+
+    Pioneer in computing accessibility analysis on the foundation of
+    transportation networks is Harvey W. Armstrong (1972) who converted an
+    exemplary road network with 159 nodes to a matrix and used a C.D.C. 6000
+    computer to evaluate economic feasibility of airports in South Hamphsire
+    \cite{armstrong1972network} (figure \ref{fig:overv:nodac}).\par
+
+    Jean-Claude Muller (1978) highlights issues with the mapping of
+    time-distances as the derived space is often non-euclidean and hardly
+    mappable without distorting the geographic reference system
+    \cite{muller1978mapping}. He presents a numerical approach for time-distance
+    transformations of Edmonton and analysis the resulting distortions (figure
+    \ref{fig:overv:maptt}).\par
+
+    \begin{figure}[ht]
       \subcaptionbox{
         \label{fig:overv:patnt}
         Method of Providing Travel Time, 2001
@@ -140,65 +159,51 @@
         Network-Based Accessibility Visualization in Potsdam, 2012
         \cite{hollburghier,Hollburg2014}.}
       {\includegraphics[width=0.32\textwidth]{./img/overv-potsd.png}}
-      \caption{Foo bar.}
-      \label{fig:overv}
+      \caption{Shoo bar.}
+      \label{fig:overv:2}
     \end{figure}
 
-    In 1881 Francis Galton constructed the first isochronic map for the Royal
-    Geographic Society in London (figure \ref{fig:overv:isopc}).
+    The United States Patent and Trademark Office (\acrshort{uspto}) publishes
+    the patent \#US006317686B1 issued by Bin Ran in 2001 on the method of
+    providing travel time \cite{ran2001method}. It claims a personalized
+    multi-modal travel prediction and trip decision support system including
+    traffic forecast maps such as travel speed maps, travel time maps, and
+    travel cost maps. It uses contour lines to represent predictive minimal
+    travel time from a selected origin (figure \ref{fig:overv:patnt}).\par
 
-    % hansen 1959
-    % accessibility indicator urban transportation systems
-    % serving residents in urban areas
-    % method for determining accessibility patterns within metropolitan areas
-    % defines accessibility is potential of opportunities for interaction
-
-    % armstrong 1972
-    % network analysis accessibility
-    % transport costs play an important role
-    % here: economic evaluation of airports
-    % road travel times and weighting by importance for the application and population
-    % among first computer based accessibility analysis: C.D.C. 6000 computer
-    % road network matrix, resulting graph 156 nodes
-    %%% GRAPHIC FIG 3or4
-
-    % muller 1978
-    % mapping of travel time
-    % time distance: time required to travel specific distance
-    % derived space is non-euclidean not mappable in two dimensions
-    % provides a numerical approach
-    %%% GRAPHIC Fig 1
-
-    % ran Google patent travel time 2001
-    % patent, method of providing travel time
-    % personalized multi-modal travel prediction and trip decision support system
-    % traffic forecast maps: travel speed maps, travel time maps, travel cost maps, etc.
-    %%% GRAPHIC fig 7a origin based predictive travel time (vs. destination based)
-    % contour line represents predictive minimal travel time from the origin
-
-    % street thesis application isochrones as transportation network costs display 2006
-    % time contours java application: isochrone generating system (contours, isolines)
+    % street theis 2006
     % time based maps describe time accessibility of networks
-    % isochrone implementations among most successful, does not disrupt underlying map
-    % contours are method to display 3rd dimension on two (like height, isohypses)
-    %%% same works for time: isochrones
     %%% FIG: 56 or 57 global integration of london (axial map) of network
-    % most of time renders isochrones
+
+    An important milestone and often cited reference is the final report on
+    TimeContours by Nicholas Street (2006). It provides a Java application which
+    maps isochrones onto public transport and road graphs to display
+    transportation costs with respect to the travel time required
+    \cite{street2006timecontours}. It discusses methods to display more than two
+    dimensions on geographic maps such as isolines and defines isochrones --
+    isolines of same time -- as derivation of the more commonly used isohypses
+    -- isolines of the same height -- in a similar manner.\par
 
     % neis et al. 2007
-    % web based accessibility analysis, suggests accessibility analysis service (AAS)
-    % data provided in xml, web service in java (applet)
     % utilizes attributed street network graph
-    % three methods of visualizing accessibility: isochrones, buffer, convex hull
-    % creates elevation model where time is the 3rd dimension
-    % calculates isohypses whcih are isochrones technical
     %%% FIG 13 accessibility maps buffer isolines convexhull
 
-    % van campenhout summary overview travel time maps 2010
-    % well organized summary: accessibility index, isochrone maps, anamorphosis maps
+    A first web-based service for accessibility analysis is specified by
+    Neis et al. (2007). Their approach suggests an accessibility analysis
+    service (\acrshort{aas}) based on standards defined by the Open Geospatial
+    Consortium (\acrshort{ogc}) \cite{neis2007webbasierte}. A provided web
+    application is presented as Java Applet and receives responses in extensible
+    markup language format (\acrshort{xml}). It calculates an elevation model
+    where the third dimension encodes the required travel time and compares
+    different visualization methods such as buffers, convex hulls and isochones
+    to display the results.\par
+
+    A well organized summary on different methods for providing accessibility
+    maps like accessibility indices, anamorphosis maps or isochrone
+    visualizations can be found in Martijn van Campenhout's thesis on travel
+    time maps (2010) \cite{van2010travel}.\par
 
     % glander 2010
-    % accessibility maps for the visualization of quality of mobility in public transport
     % calculates isochrones from weighted voronoi centers (?) and distance fields
     %%% FIG 1 public transport berlin
 
@@ -209,11 +214,11 @@
     % first who highlights: display of network is no only effective for the user but efficient and correct calc'able
     % generalized polygons introduce visual errors and high rendering demand
 
-    % hollburg 2012
-    % web based accessibility analysis, tourism in potsdam
-    % network based analysis and visualization
-    % web based provision
-    %%% FIG hollburg 2014
+    Glander et al. (2010) present an accessibility map visualization technique
+    with a focus on polygon-based approaches in the public transport domain
+    \cite{Glander2010} (figure \ref{fig:overv:berln}), and raster-based distance
+    transforms~\cite{Mueller2010} which both lack precision in display offered
+    by network-based approaches such as the one presented in this thesis.\par
 
     % innereber et al. isogar (2013)
     % figure (web app)
@@ -225,6 +230,20 @@
     % reveals time-dependent spatial travel variance
     % FIG 1 24 layered shapes for each hour of the day
 
+    % yin et al. 2015
+    % web based system to visualize multi-modal accessibility
+    % integrated platform for accessibility analysis tasks
+    % web based providing easy to use interface for users
+    % light weight, users will not need to purchase or install software
+    % accessible to a wider range of audiences
+    % FIG 4accessibility view (choropleth), travel time view (isochrone)
+
+    % hollburg 2012
+    % web based accessibility analysis, tourism in potsdam
+    % network based analysis and visualization
+    % web based provision
+    %%% FIG hollburg 2014
+
     % hollburg 2014
     %%% FIG 18
     % network based method developed in hollburg 2012 was comprehensible, but not efficient for huge transportation networks
@@ -232,35 +251,11 @@
     % faster transmission of polygons due to smaller data volume (svg)
     % SONA (simple online network analysis)
 
-    % yin et al. 2015
-    % web based system to visualize multi-modal accessibility
-    % integrated platform for accessibility analysis tasks
-    % accessibility term: combination of mobility and potential
-    %%% mobility: ability of movement
-    %%% potential: number/size of destination opportunities
-    % web based providing easy to use interface for users
-    % light weight, users will not need to purchase or install software
-    % accessible to a wider range of audiences
-    % FIG 4accessibility view (choropleth), travel time view (isochrone)
-
     % this work in line with / based on hollburg 2012 and 2014 and the services motion intelligence offers (r360)
 
     % maps %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
     % apps %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-
-%    Google issued a patent in the United States of America on the
-%    \enquote{Method of Providing Travel Time} (compare figure
-%    \ref{fig:overv:patnt}).\par
-%
-%    \begin{figure}[htb]
-%      \centering
-%      \includegraphics[width=\linewidth]
-%        {./img/overv-patnt.png}
-%      \caption{The Method of Providing Travel Time by Bin Ran, 2000 \cite{ran2001method}.}
-%      \label{fig:overv:patnt}
-%    \end{figure}
 
   \section{Related applications and maps}
     \label{sec:overv:applc}
@@ -382,3 +377,5 @@
 %
 %  \section{Web-based rendering technologies}
 %    \label{sec:overv:webrn}
+
+% @TODO 2.3 ???
