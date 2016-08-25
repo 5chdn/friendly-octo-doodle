@@ -5,24 +5,43 @@
 \chapter{Requirements for this approach}
   \label{chap:requr}
 
-%   To summarize, an interactive visualization technique for web-based accessibility maps should adhere to the following requirements and challenges: it should support a web-based, hardware-accelerated implementation using WebGL~\cite{Parisi2012}~(R1); a standardized and compact data representation that allows for decoupling network geometry from temporal data to reduce data transmission and updates~(R2); as well as enable interactive client-side filtering, mapping, and rendering for visual feedback~(R3).
+  One way of communicating mobility information such as travel times are
+  two-dimensional maps. Accessibility and mobility becomes a central topic in a
+  growing number of fields. There are strong demands for corresponding web
+  mapping components based on massive geo-data sets, such as \acrshort{osm}.\par
 
-  % one way of communicating mobility information such as travel times are two dimensional maps
-  % accessibility and mobility becomes a central topic in a growing number of fields
-  % there are strong demands for corresponding web mapping components
-  % based on massive geodata sets, such as osm
+  An interactive visualization technique for web-based accessibility maps should
+  adhere to the following requirements and challenges:\par
 
+  \begin{enumerate}[\label=({R}1)]
+    \item \label{enu:requr:r1} It should support a web-based,
+      hardware-accelerated implementation using WebGL. %~\cite{Parisi2012}.
+    \item \label{enu:requr:r2} It should utilize a standardized and compact
+      data representation that allows for decoupling network geometry from
+      temporal data to reduce data transmission and updates.
+    \item \label{enu:requr:r3} It should enable interactive client-side
+      filtering, mapping, and rendering for visual feedback.
+    \item \label{enu:requr:r4} It should map the travel time information
+      directly onto the transportation network for highly detailed
+      visualizations.
+  \end{enumerate}
 
-  \section{Network-based visualization}
-    \label{sec:requr:netwr}
-  \section{Compact data representation}
-    \label{sec:requr:data}
-  \section{Client-side mapping and rendering}
-    \label{sec:requr:clien}
-    % user foo interaction, dynamic bar
+  Requirement R\ref{enu:requr:r2}.
+
   \section{Web-based provision}
     \label{sec:requr:websd}
     This project focuses on the JavaScript webmapping framework \textit{Leaflet-JS} [??]. Better alternatives with a more advanced WebGL-integration are available (e.g. \textit{OpenLayers 3}) but a high compatibility with the existing \textit{Route360-JS} API developed by Motion Intelligence GmbH [??] is a requirement for this project. Therefore, Leaflet will be used.\par
     There is no native support for WebGL in Leaflet, yet\footnote{While writing this paper, a spanish software engineer, Iván Sánchez Ortega, started working on a Leaflet.GL plugin architecture [??] which was not taken into consideration as it is still experimental and was not available when this project implementation was started.}. Along with this implementation, a handful of Leaflet plugins will be developed which support a future WebGL integration [??][??] (see section {sec:tile}).\par
     % compare expert knowledge w/ GIS systems
+
+  \section{Compact data representation}
+    \label{sec:requr:data}
+
+  \section{Client-side mapping and rendering}
+    \label{sec:requr:clien}
+    % user foo interaction, dynamic bar
+
+  \section{Network-based visualization}
+    \label{sec:requr:netwr}
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
