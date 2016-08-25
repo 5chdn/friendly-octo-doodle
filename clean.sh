@@ -1,0 +1,31 @@
+#!/bin/bash
+
+rm -f chpt/01.intro.inc.aux
+rm -f chpt/02.overv.inc.aux
+rm -f chpt/03.requr.inc.aux
+rm -f chpt/04.conct.inc.aux
+rm -f chpt/05.imple.inc.aux
+rm -f chpt/06.evalu.inc.aux
+rm -f chpt/07.discu.inc.aux
+rm -f chpt/08.concl.inc.aux
+rm -f chpt/99.apndx.inc.aux
+rm -f schoedon-blx.bib
+rm -f schoedon.acn
+rm -f schoedon.acr
+rm -f schoedon.alg
+rm -f schoedon.aux
+rm -f schoedon.bbl
+rm -f schoedon.blg
+rm -f schoedon.fdb_latexmk
+rm -f schoedon.fls
+rm -f schoedon.glsdefs
+rm -f schoedon.ist
+rm -f schoedon.lof
+rm -f schoedon.log
+rm -f schoedon.lol
+rm -f schoedon.lot
+rm -f schoedon.pdf
+rm -f schoedon.run.xml
+rm -f schoedon.synctex.gz
+rm -f schoedon.toc
+rm -f statutorydeclaration.aux
