@@ -16,18 +16,10 @@
     static, predefined display. Vector data can be rendered client-side
     using dynamic mappings and interactive stylization.\par
 
-    \begin{figure}[htb]
-      \centering
-      \includegraphics[width=\linewidth]
-        {./img/screenshot-teaser-7200s-publictransport.png}
-      \caption{A network-based accessibility map visualization.}
-      \label{fig:intro:teasr}
-    \end{figure}
-
     However, these techniques do not supply a convenient approach to map and
     render high detailed, unfiltered transportation network geometries
     required for applications such as accessibility analytics (compare Figure
-    \ref{fig:intro:teasr}).\par
+    \ref{fig:intro:teasr} on page \pageref{fig:intro:teasr}).\par
 
   \section{Definitions}
     \label{sec:intro:def}
@@ -40,29 +32,39 @@
       \item[Transportation Network] is a multimodal, routable graph
         representation of a geographic dataset.
         It includes all types of roads from motorways to residential paths
-        including foot-ways and cycle-ways [??]. It does not include railways or
-        bus guide-ways which are not accessible by private means of transport.
+        including foot-ways and cycle-ways. The network visualizations in this
+        work do not include railways or bus guide-ways which are not accessible
+        by private means of transport but they are included in the underlying
+        shortest path routing algorithms.
       \item[Accessibility Maps] are tools for mobility analytics. They display
         single source shortest path (\acrshort{sssp}) routing for selected
-        geographic areas \cite{krumke2009graphentheoretische}. The term goes
-        back to Hansen \cite{hansen1959accessibility} who defines accessibility
-        as key indicator for urban transportation systems.
+        geographic areas \cite{Meyer2001,krumke2009graphentheoretische}. The
+        term goes back to Hansen \cite{hansen1959accessibility} who defines
+        accessibility as key indicator for urban transportation systems.
         Accessibility analysis is also used as a synonym
         for \textit{reachability} analysis \cite{Innerebner2013} and the
-        resulting maps also match the term \textit{travel time maps}
-        \cite{van2010travel}. Yin et al. \cite{Yin2015} define the
-        term accessibility as combination of mobility and potential in this
-        context where mobility is the ability of movement and potential the size
+        resulting maps are sometimes referred to by the term \textit{travel time
+        maps} \cite{van2010travel}. Yin et al. \cite{Yin2015} define the
+        term accessibility as combination of mobility and potential. In this
+        context mobility is the ability of movement and potential the size
         of destination opportunities. However, it's not related to services or
         environments for people who experience disabilities.
-
-
     \end{description}
+
+    \begin{figure}[ht]
+      \centering
+      \includegraphics[width=\linewidth]
+        {./img/screenshot-teaser-7200s-publictransport.png}
+      \caption{Rendered in a web-client: A network-based accessibility map
+        visualization with two origins in Potsdam and Berlin for two hours
+        travel time with public transport.}
+      \label{fig:intro:teasr}
+    \end{figure}
 
   \section{Problem statement}
     \label{sec:intro:probl}
 
-    Figure \ref{fig:intro:r360d} shows an existing web service for accessibility
+    Figure \ref{fig:intro:r360d} (page \pageref{fig:intro:r360d}) shows an existing web service for accessibility
     mapping. It encodes travel time intervals using separate polygons, which
     must be computed and transferred to the browser. This kind of approach has
     several drawbacks:\par
@@ -73,13 +75,14 @@
       \item \label{enu:drawb:d3} It does not scale for a more detailed display.
     \end{enumerate}
 
-    \begin{figure}[htb]
+    \begin{figure}[ht]
       \centering
       \includegraphics[width=\linewidth]
         {./img/screenshot-r360js-demo.png}
       \caption{A generalized, polygon-based accessibility map visualization
         by Motion Intelligence GmbH utilizing the Route360$^\circ$-\acrshort{js}
-        \acrshort{api} [??].}
+        \acrshort{api} \cite{Route360} with three origins in Berlin for 30
+        minutes travel time by car.}
       \label{fig:intro:r360d}
     \end{figure}
 
@@ -103,7 +106,7 @@
     lack for client-side filtering and mapping without requesting a complete map
     tile reload. Web services using this technology approach this by using small
     vector overlays displaying additional user-styled information [??], but it
-    is not possible to access the the map data itself.\par
+    is not possible to access or interact with the map data itself.\par
 
     In contrast thereto, geo-data transmitted using vector formats
     (e.g., \acrshort{json}, \acrshort{gml}) enable
@@ -112,21 +115,34 @@
     rendering are usually performed on central processing units (\acrshort{cpu})
     using JavaScript (\acrshort{js}) algorithms. Recent approaches do support
     hardware-accelerated rendering (\acrshort{gpu}) but lack functionality for
-    client-side vector data processing~\cite{Gaffuri2012}.\par
+    massive client-side vector data processing~\cite{Gaffuri2012}.\par
 
     Thus, both approach changes in filtering (e.g., selecting a travel time
     threshold) or mapping (e.g., color mapping, line styles etc.) would result
     in a complete data re-transmission, loading, and processing.\par
 
     Therefore, high detailed network analysis and visualization is often
-    performed using Geographic Information Systems (\acrshort{gis}) [??]. Such
-    systems
+    performed using Geographic Information Systems (\acrshort{gis})
+    \cite{o2000using}. Such systems
     exploit the computation power of desktop workstations but posses limited
     applicability to everyday life, due to data availability and access, as well
     as expert domain knowledge required by a user [??].\par
 
   \section{Contributions}
     \label{sec:intro:contr}
+
+    In contrast to existing accessibility-map visualization concepts, this work
+    focuses on visualizing the travel time data directly on the respective
+    transportation network features, rather than (possibility generalized)
+    polygons~\cite{Glander2010} or specific graph layouts~\cite{Krause2012}.
+    This enables a precise mapping of travel data to the geo-referenced
+    transportation network. However, considering the high geometric complexity
+    (vertices, primitives) introduced by increasing quality of transportation
+    networks~\cite{Zielstra2010}, e.g., of massive open data transportation
+    networks (OpenStreetMap (\acrshort{osm}) or General Transit Feed
+    Specification (\acrshort{gtfs})),
+    an implementation of an interactive web-based visualization technique
+    comprises a number of conceptual and technical challenges.\par
 
     In the light of powerful, dedicated graphics hardware being not only
     available on personal computers (\acrshort{pc}) but also
@@ -145,39 +161,39 @@
     This thesis proposes a new approach for web-based visualization of
     accessibility maps based on transportation network data. This geometry-based
     approach uses vector data (lines) stored and transmitted using the new
-    standardized graphics library transmission format (\acrshort{gltf}) [??],
-    which reduces performance-critical
+    standardized graphics library transmission format (\acrshort{gltf})
+    \cite{Cozzi2015}, which reduces performance-critical
     computations in the visualization client (i.e., coordinate transformations)
     and thus facilitates real-time rendering with high run-time performance
     yielding low client response times. To summarize, this work makes the
     following contributions:\par
 
     \begin{enumerate}[\label=({C}1)]
-
       \item \label{enu:contr:c1} It provides a formal definition of a
-        web-service for visualizing unfiltered multi-modal spatial networks.
+        web-service for visualizing unfiltered multi-modal spatial networks
+        (D\ref{enu:drawb:d2}).
         This includes the back-end \acrshort{api} specification, the
         transmission format chosen and the client proof-of-concept
         implementation.
       \item \label{enu:contr:c2} It presents a concept to decouple the
         visualization geometry and data items for interactive web-based
-        accessibility maps based on \acrshort{webgl}.
+        accessibility maps based on \acrshort{webgl} to scale for a more
+        detailed network-based display (D\ref{enu:drawb:d3}).
       \item \label{enu:contr:c3} It specifies a geographic tiling concept based
         on a binary transmission format close to rendering requirements
-        utilizing the new standardized \acrshort{gltf}. This reduces bandwidth
+        utilizing the new standardized \acrshort{gltf} to omit the need of
+        generalization (D\ref{enu:drawb:d1}). This reduces bandwidth
         and client-side processing requirements to a minimum to enable dynamic
         user interactions without any notable delays.
-      \item \label{enu:contr:c4} It demonstrates the effectiveness of this
-        approach by a comparative performance evaluation of different
-        implementation variants.
-      \item \label{enu:contr:c5} It provides a web-based proof-of-concept
-        implementation to demonstrate the effectiveness and efficiency of this
-        approach.
+      \item \label{enu:contr:c4} It provides a web-based proof-of-concept
+        implementation to demonstrate the effectiveness of this approach and
+        it shows the efficiency of this approach by a comparative performance
+        evaluation of different implementation variants.
     \end{enumerate}
 
-    The technique presented in this thesis is a graphics library (\acrshort{gl})
-    based approach rather than classic vector- or raster-based provisions.
-    It shows various advantages:\par
+    All in all, the technique presented in this thesis is a graphics library
+    (\acrshort{gl}) based approach rather than classic vector- or raster-based
+    provisions. It shows various advantages:\par
 
     \begin{enumerate}[\label=({A}1)]
       \item \label{enu:advnt:a1} Its usage is not limited to stationary desktop
@@ -189,27 +205,14 @@
         visualization frameworks.
     \end{enumerate}
 
-    In contrast to existing accessibility-map visualization concepts, this work
-    focuses on visualizing the travel time data directly on the respective
-    transportation network features, rather than (possibility generalized)
-    polygons~\cite{Glander2010} or specific graph layouts~\cite{Krause2012}.
-    This enables a precise mapping of travel data to the geo-referenced
-    transportation network. However, considering the high geometric complexity
-    (vertices, primitives) introduced by increasing quality of transportation
-    networks~\cite{Zielstra2010}, e.g., of massive open data transportation
-    networks (OpenStreetMap (\acrshort{osm}) or General Transit Feed
-    Specification (\acrshort{gtfs})),
-    an implementation of an interactive web-based visualization technique
-    comprises a number of conceptual and technical challenges.\par
-
-    It maintains the goal to allow real-time rendering with outstanding
+    Finally, It maintains the goal to allow real-time rendering with outstanding
     performance and very low response times for the client.\par
 
 
   \section{Publications}
     \label{sec:intro:publc}
 
-    Preliminary results presented in this thesis have been published in the
+    Preliminary results presented in this thesis have been published at the
     following conferences:
 
     \begin{itemize}
