@@ -73,6 +73,7 @@
       2012 & Mertens \cite{meertens2012} & Travel Time Maps of urban areas in the Netherlands & Graphic \\
       2012 & Trevett \cite{Trevett2012} & 3D transmission format \acrshort{gltf} & Presentation \\
       2012 & TripTropNYC \cite{TriptropNYC} & Web-based accessibility visualization in New York & Application \\
+      2013 & Efentakis et al. \cite{efentakis2013isochrones} & Reachability of population in urban catchment areas & Publication \\
       2013 & Innerebner \cite{Innerebner2013} & Isochrones in multi-modal spatial networks & PhD Thesis \\
       2013 & Innerebner et al. \cite{innerebner2013isoga} & Web-based geospatial reachability analysis tool & Publication \\
       2013 & Transit Time NYC \cite{TransitTimeNYC} & Web-based subway transit times in New York & Application \\
@@ -152,7 +153,7 @@
     \begin{figure}[ht]
       \subcaptionbox{
         \label{fig:overv:patnt}
-        Method of Providing Travel Time, 2001
+        Patent: Method of Providing Travel Time, 2001
         \cite{ran2001method}.}
       {\includegraphics[width=0.32\textwidth]{./img/overv-patnt.png}}
       \hfill
@@ -190,7 +191,8 @@
     \cite{street2006timecontours}. It discusses methods to display more than two
     dimensions on geographic maps such as isolines and defines isochrones --
     isolines of same time -- as derivation of the more commonly used isohypses
-    -- isolines of the same height -- in a similar manner.\par
+    -- isolines of the same height -- of topographic maps in a similar
+    manner.\par
 
     % neis et al. 2007
     % utilizes attributed street network graph
@@ -226,10 +228,8 @@
     with a focus on polygon-based approaches in the public transport domain
     \cite{Glander2010} (figure \ref{fig:overv:berln}), and raster-based distance
     transforms~\cite{Mueller2010} which both lack precision in display offered
-    by network-based approaches such as the one presented in this thesis.\par
-
-    % innereber et al. isogar (2013)
-    % figure (web app)
+    by network-based approaches such as the one presented in this thesis
+    (C\ref{enu:contr:c1}).\par
 
     % gortana 2014
     % isoscope web app
@@ -251,7 +251,10 @@
     However, the visualization technique does not focus on the specifics of
     transportation network representations.\par
 
-    Finally, this thesis is furthering the work of Hollburg et al. (2012,
+  \section{Direct predecessors of this thesis}
+    \label{sec:overv:predc}
+
+    This thesis is furthering the work of Hollburg et al. (2012,
     2014) and the resulting services Motion Intelligence GmbH offers with their
     Route360°-\acrshort{js} \acrshort{api}. In \cite{hollburghier}, a web-based
     accessibility mapping service is provided to support tourists to assess
@@ -259,65 +262,86 @@
     It provides a
     limited network-based visualization and highlights the benefits from
     mapping the travel times directly onto the transportation network rather
-    than calculating isochrones (figure \ref{fig:overv:potsd}). However, it
+    than calculating isochrones (figure \ref{fig:overv:potsd} on page
+    \pageref{fig:overv:potsd}). However, it
     realizes it's not feasible to use this approach for larger networks
-    including car travel or public transport. In \cite{Hollburg2014}, Hollburg
-    presents an efficient way to generalize road segments and to calculate
+    including car travel or public transport (D\ref{enu:drawb:d3}).\par
+
+    In \cite{Hollburg2014}, Hollburg
+    presents an efficient way to generalize road segments (D\ref{enu:drawb:d1})
+    and to calculate
     isochrones to visualize large accessibility maps in web clients and argues
     polygons are faster to transmit than complete network geometries due to the
     smaller data volume. The network-based method developed in his preceding
     work was comprehensible but not efficient for huge transportation networks.
 
-  \section{Related applications and maps}
+  \section{Related applications and map graphics}
     \label{sec:overv:applc}
 
     % maps %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
     % apps %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-    Foo. Baz.
+    Apart from the scientific work presented in sections \ref{sec:overv:publc}
+    and \ref{sec:overv:predc}, a comprehensive overview of web applications
+    and map graphics or map related representations is given in this
+    section.\par
 
-    % isoga, simplefleet, public transit travel time, simple online network analysis(hollburg 2014 FIG 7)
-    % SONA (simple online network analysis)
 
-%    Time Travel (Oskar Karlin) 2005
-%
-%http://www.oskarlin.com/2005/11/29/time-travel/
-%
-%Oskar Karlin. Time travel, 2005. URL http://www.oskarlin.com/2005/11/29/time-travel/.
-%Letzter Zugriff: 31.1.2010.
-%
-%Time Travel, Oskar Karlin, http://www.oskarlin.com/2005/11/29/time-travel/
-%[Accessed 04 Jan 2006]
-%
-%#######################
-%http://www.openrouteservice.org/
-%Accessibility Analysis
-%
-%#######################
-%https://github.com/mapbox/osrm-isochrone
-%
-%#######################
-%WalkScore Travel Time API
-%https://www.walkscore.com/professional/travel-time-api.php
-%
-%#######################
-%OneBayArea, San Fransisco Plan 2040
-%http://maps.planbayarea.org/travel_housing/
-%
-%#######################
-%Graphhopper Direction API
-%Isochrone API
-%https://graphhopper.com/api/1/docs/isochrone/
-%
-%#######################
-%Hollburg et al (2014)
-%https://www.route360.net/
-%
-%#######################
-%http://cartoo.dyndns.org/
+      %2005 & Chronomap \cite{Chronomap} & Drive-time analysis & Application \\
+      %2005 & Travel Time Tube Map \cite{Carden2006} & Interactive travel time tube map & Application \\
+      %2008 & Mapumental \cite{Mapumental} & Maps that show time & Application \\
+      %2009 & FreeMapTools \cite{Freemaptools} & How far can I travel & Application \\
+      %2010 & Time Maps \cite{TimeMaps} & Public transport time maps of the Netherlands & Application \\
+      %2011 & Isochrone.ch \cite{IsochroneCh} & Isochrones in schedule-based public transport & Application \\
+      %2012 & Conveyal \cite{Conveyal} & Transportation - land use analysis & Application \\
+      %2012 & Mapnificent \cite{Mapnificent} & Web-based reachability visualization of public transport & Application \\
+      %2012 & TripTropNYC \cite{TriptropNYC} & Web-based accessibility visualization in New York & Application \\
+      %2013 & Transit Time NYC \cite{TransitTimeNYC} & Web-based subway transit times in New York & Application \\
+      %2014 & Isoscope \cite{Isoscope} & Visualizing mobility with isochrone maps & Application \\
+      %2014 & Route360° \cite{Route360} & Web-based travel time analysis & Application \\
+      %2015 & TravelTimePlatform \cite{TravelTimePlatform} & Search and filter by time not distance & Application \\
+
+% walk score travel time api / drive time api
+% multimodal traveltimes, including/excluding traffic
+% dynamic visualizations, fixed polygons (isocrhones)
+% https://www.walkscore.com/professional/travel-time-api.php
+
+% trulia maps commute time, 60min max, public transport + car (isochrones)
+% http://www.trulia.com/local/los-angeles-ca/driving:1|transit:0|position:34.052218;-118.243389|time:60_commute
+
+% simplefleet
+% isochrones, statistics on reachable population
+% http://www.simplefleet.eu/?page_id=54
+
+% public transit travel time geoss.colorado.edu/traveltime/
+% geoss.colorado.edu/traveltime/TravelTime.pdf
+% http://i.imgur.com/QrWOfJ3.png
+% https://www.fastcoexist.com/3025581/visualized/these-maps-redraw-cities-based-on-how-long-it-takes-to-get-around-without-a-car
+% anymations https://www.youtube.com/watch?v=CMazGQHsMEM&feature=youtu.be&t=27s.
+
+% Open route service accessibility analysis
+% isochrone methods: recursive grid, TIN
+% slowwwww, ugly, buggy
+% http://www.openrouteservice.org/
+
+% OneBayArea Maps, San Fransisco Plan 2040
+% isochronen auf viertel-ebene (blocks), single use case
+% http://maps.planbayarea.org/travel_housing/
+
+% Graphhopper Direction API
+% Isochrone API, simple isochrones
+% https://graphhopper.com/api/1/docs/isochrone/
+
+% Mapbox OSRG Isochrone plugin
+% https://github.com/mapbox/osrm-isochrone
+
+% Isochronous Application
+% simple single isochrone, queried from google maps server, buggy
+% http://cartoo.dyndns.org/
+
+
 
 
 % https://www.khronos.org/news/press/significant-gltf-momentum-for-efficient-transmission-of-3d-scenes-models
 
-% @TODO 2.3 ???
