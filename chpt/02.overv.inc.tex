@@ -386,7 +386,7 @@
     transformations of Edmonton and analyses the resulting distortions (figure
     \ref{fig:overv:maptt}).\par
 
-    \begin{figure}[ht]
+    \begin{figure}[t]
       \subcaptionbox{
         \label{fig:overv:patnt}
         Patent: Method of Providing Travel Time, 2001
@@ -495,81 +495,160 @@
     Route360°-\acrshort{js} \acrshort{api}. In \cite{hollburghier}, a web-based
     accessibility mapping service is provided to support tourists in assessing
     reachability for points of interest (\acrshort{poi}) in the city of Potsdam.
-    It provides a
-    limited network-based visualization and highlights the benefits from
-    mapping the travel times directly onto the transportation network rather
-    than calculating isochrones (figure \ref{fig:overv:potsd} on page
-    \pageref{fig:overv:potsd}). However, it
-    realizes it's not feasible to use this approach for larger networks
-    including car travel or public transport (D\ref{enu:drawb:d3}).\par
+    It provides a limited network-based visualization and highlights the
+    benefits from mapping the travel times directly onto the transportation
+    network rather than calculating isochrones (figure \ref{fig:overv:potsd} on
+    page \pageref{fig:overv:potsd}). However, it realizes it's not feasible to
+    use this approach for larger networks including car travel or public
+    transport (D\ref{enu:drawb:d3}).\par
 
     In \cite{Hollburg2014}, Hollburg
     presents an efficient way to generalize road segments (D\ref{enu:drawb:d1})
-    and to calculate
-    isochrones to visualize large accessibility maps in web clients and argues
-    polygons are faster to transmit than complete network geometries due to the
-    smaller data volume. The network-based method developed in his preceding
-    work was comprehensible but not efficient for huge transportation networks.
+    and to calculate isochrones to visualize large accessibility maps in web
+    clients and argues polygons are faster to transmit than complete network
+    geometries due to the smaller data volume. The network-based method
+    developed in his preceding work was comprehensible but not efficient for
+    huge transportation networks.\par
 
-  \section{Related applications and map graphics}
+  \section{Web applications for accessibility mapping}
     \label{sec:overv:applc}
 
-    % maps %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-    % apps %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+    \begin{figure}[t]
+      \subcaptionbox{
+        \label{fig:overv:asdf0}
+        Patent: Method of Providing Travel Time, 2001
+        \cite{ran2001method}.}
+      {\includegraphics[width=0.32\textwidth]{./img/overv-patnt.png}}
+      \hfill
+      \subcaptionbox{
+        \label{fig:overv:asdf1}
+        Visualization of Quality of Mobility in Public Transport, 2010
+        \cite{Glander2010}.}
+      {\includegraphics[width=0.32\textwidth]{./img/overv-berln.png}}
+      \hfill
+      \subcaptionbox{
+        \label{fig:overv:asdf2}
+        Network-Based Accessibility Visualization in Potsdam, 2012
+        \cite{hollburghier,Hollburg2014}.}
+      {\includegraphics[width=0.32\textwidth]{./img/overv-potsd.png}}
+      \caption{Shoo bar.}
+      \label{fig:overv:3}
+    \end{figure}
 
     Apart from the scientific work presented in sections \ref{sec:overv:publc}
     and \ref{sec:overv:predc}, a comprehensive overview of web applications
-    and map graphics or map related representations is given in this
-    section.\par
+    displaying accessibility maps is given in this section.\par
 
-% 2006 Travel Time Tube Map \cite{Carden2006} & Interactive travel time tube map & Application
-% among the first, web java applet, distorts london tube network by selected starting location
-% maps static circle isocrhones, distortion to eucledian distances
+    Among the first notable releases is the \textit{Travel Time Tube Map} by Tom
+    Carden (2006). Carden created a Java applet for web clients to view the
+    London tube network by selected starting locations. It maps static, circular
+    isochrones and distorts the underlying euclidean distances depending on the
+    selected train station and the related travel time required to reach the
+    other stations \cite{Carden2006}. The application is very limited to small
+    networks and no reference to the neighboring geographic topology is
+    available.\par
 
-% 2008 Mapumental \cite{Mapumental} & Maps that show time & Application
-% isochrone for reachable area by public transport
-% shadows area which is unreachable
-% see also work by \cite{Lightfoot2006} \cite{Irving2007}
+    The first web-service for undistorted accessibility mapping visualizations
+    is presented by Chris Lightfood and Francis Irving (2008)\cite{Mapumental}.
+    It maps reachable urban space by shading inaccessible areas with isochronic
+    display \cite{Lightfoot2006,Irving2007}. The tool is limited to public
+    transport only.\par
 
-% 2009 FreeMapTools \cite{Freemaptools} & How far can I travel & Application
-% Instead of a radius as the crow flies, can you do a radius as the car drives"
-% calculates an isochrone "radius" based on speed and travel time on an actual road map
+    FreeMapTools (2009) offer a Google-based application with the title
+    \textit{How Far Can I Travel}. It calculates an isochrone radius based on
+    speed and travel time over an actual road network \cite{Freemaptools}. The
+    calculation of the time-distances happens browser-side using multiple Google
+    routing queries. This is slow and often fails due to timeouts.\par
 
-% 2010 Time Maps \cite{TimeMaps} & Public transport time maps of the Netherlands & Application
-% similar to tom cardens tube map, it distorts a map of the netherlands
-% based on public transport (railways), unique: displays different times of the day
-% static circular isochrones, distorted basemap
-% see also work by \cite{meertens2012}
+    Similar to the \textit{Travel Time Tube Map}, Vincent Meertens (2010)
+    created \textit{TimeMaps} for the Netherlands. It distorts the base-map of
+    the Netherlands based on public transport travel times and aligns the
+    results along static circular isochrones. An unique feature is the ability
+    to select different times of the day to visualize the different aspects of
+    reachability during morning, noon, evening and night times
+    \cite{TimeMaps,meertens2012}. The implementation, however, is targeted for
+    the specifics of the Netherlands and does not scale for more detail.\par
 
-% 2011 Isochrone.ch \cite{IsochroneCh} & Isochrones in schedule-based public transport & Application
-% dedicated web application to display public transport accessibility in switzerland by isochrones
-% see also work by birchler \cite{birchler2011computing}
+    In 2011, Marco Birchler presented IsoChrone.ch, a web-based accessibility
+    visualization for schedule-based public transport in Switzerland
+    \cite{IsochroneCh,birchler2011computing}. The display is limited to
+    polygonal generalizations and does not support multi-modal travel.\par
 
-% 2012 Conveyal \cite{Conveyal} & Transportation - land use analysis & Application
-% logistics and land use with isochrones on quarter level
-% multimodal, commercial web application
+    A first multi-modal web-application is provided by Conveyal (2012). It
+    enables logistics and land use analytics with isochronic visual
+    support \cite{Conveyal}. The application is only available for business
+    clients though.\par
 
-% 2012 Mapnificent \cite{Mapnificent} & Web-based reachability visualization of public transport & Application
-% web application with simplified client-based routing & gtfs
-% calculates isocrhone on the fly, shades unreachable areas
-% multi-modal
+    \begin{figure}[t]
+      \subcaptionbox{
+        \label{fig:overv:asdf3}
+        Patent: Method of Providing Travel Time, 2001
+        \cite{ran2001method}.}
+      {\includegraphics[width=0.32\textwidth]{./img/overv-patnt.png}}
+      \hfill
+      \subcaptionbox{
+        \label{fig:overv:asdf4}
+        Visualization of Quality of Mobility in Public Transport, 2010
+        \cite{Glander2010}.}
+      {\includegraphics[width=0.32\textwidth]{./img/overv-berln.png}}
+      \hfill
+      \subcaptionbox{
+        \label{fig:overv:asdf5}
+        Network-Based Accessibility Visualization in Potsdam, 2012
+        \cite{hollburghier,Hollburg2014}.}
+      {\includegraphics[width=0.32\textwidth]{./img/overv-potsd.png}}
+      \caption{Shoo bar.}
+      \label{fig:overv:4}
+    \end{figure}
 
-% 2012 TripTropNYC \cite{TriptropNYC} & Web-based accessibility visualization in New York & Application
-% calculates isochrones server-side and transmit them to teh client (warns user about the huge traffic impact)
-% interesting method: buffers look like squares / rectangles
-% public transport only
+    Stefan Wehrmeyer (2012) created \textit{Mapnificent}, a first open-source,
+    web-based accessibility mapping service. It calculates isochones on the fly
+    and displays the reachable areas by shading out unreachable parts of the
+    map \cite{Mapnificent}. Unique with this approach is the whole routing
+    calculation happens client-side on a strongly simplified graph
+    representation. The user has to accept drawbacks in detail and accuracy.\par
 
-% 2013 Transit Time NYC \cite{TransitTimeNYC} & Web-based subway transit times in New York & Application
-% approximates isochrones by displaying a grid of hexagons colored by average travel time
-% public transport only
+    Two alternate public transport accessibility displays are
+    \textit{TripTropNYC} (2012) \cite{TriptropNYC} and the successor
+    \textit{Transit Time NYC} (2013) \cite{TransitTimeNYC} which visualize the
+    subway transit times in New York City in rectangle-like and hexagon
+    representations respectively. Users of the service get a warning about
+    potential huge traffic and have to confirm to download the isochrones. The
+    hexagonal approach tries to solve this with a static grid, but it lacks
+    detail as the grid is colored by average travel time on each shape.\par
 
-% 2014 Isoscope \cite{Isoscope} & Visualizing mobility with isochrone maps & Application
-% isoscope web app at FH;P
-% unified isochrone maps with time varying  travel data
-% instead multiple isolines for for travel times: mult isolines for times of day
-% reveals time-dependent spatial travel variance
-% see also \cite{gortanaisoscope}
+    By extending the definition of accessibility mapping and adding another
+    dimension to the plot, the team around Flavio Gortana et al. (2014) present
+    \textit{Isoscope} \cite{Isoscope}. This is a web application to display
+    unified isochrone maps with time varying travel data. Instead of using
+    multiple isolines for different travel times it uses multiple isolines for
+    displaying accessibility information during different times of the day.
+    This approach reveals time-dependent spatial travel variance
+    \cite{gortanaisoscope}.\par
+
+    \begin{figure}[t]
+      \subcaptionbox{
+        \label{fig:overv:asdf6}
+        Patent: Method of Providing Travel Time, 2001
+        \cite{ran2001method}.}
+      {\includegraphics[width=0.32\textwidth]{./img/overv-patnt.png}}
+      \hfill
+      \subcaptionbox{
+        \label{fig:overv:asdf7}
+        Visualization of Quality of Mobility in Public Transport, 2010
+        \cite{Glander2010}.}
+      {\includegraphics[width=0.32\textwidth]{./img/overv-berln.png}}
+      \hfill
+      \subcaptionbox{
+        \label{fig:overv:asdf8}
+        Network-Based Accessibility Visualization in Potsdam, 2012
+        \cite{hollburghier,Hollburg2014}.}
+      {\includegraphics[width=0.32\textwidth]{./img/overv-potsd.png}}
+      \caption{Shoo bar.}
+      \label{fig:overv:5}
+    \end{figure}
+
+    Today, there are countless ...
 
 % 2014 Route360° \cite{Route360} & Web-based travel time analysis & Application
 % polygonal travel time services, javascript api
